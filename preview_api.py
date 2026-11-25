@@ -1,4 +1,4 @@
-"""Local-only React preview; production Streamlit entry point is unchanged."""
+"""Production FastAPI and React workspace backed by embedded Relate."""
 from pathlib import Path
 from typing import Literal
 from fastapi import FastAPI, Query, HTTPException, Request
@@ -13,7 +13,7 @@ from graph import demo_graph, analyze, rows, QUERIES
 from intelligence import graph_counts, customer_value, path_insights, compare_models, scenario
 from agent import investigate
 from customer_economics import customer_economics
-app = FastAPI(title="Nexus local preview", docs_url=None, redoc_url=None, openapi_url=None)
+app = FastAPI(title="OpenClaw Nexus", docs_url=None, redoc_url=None, openapi_url=None)
 Model = Literal["first_touch","last_touch","linear","position_based","time_decay"]
 @app.get("/api/overview")
 def overview(model: Model = "linear"):
@@ -38,10 +38,17 @@ def audit(model: Model = "linear"):
         return {"result":result,"comparison":compare_models(db)}
 
 @app.get("/api/customers")
-def customers(customer: str = Query("U001", pattern=r"^U(00[1-9]|0[1-7][0-9]|080)$")):
+def customers(customer: str = Query("U001", pattern=r"^U(00[1-9]|0[1-7][0-9]|080)$"), model: Model = "linear"):
     with demo_graph() as db:
         people, cohorts = customer_value(db)
-        return {"people":people,"cohorts":cohorts,"journey":rows(db,"journey",{"customer":customer}),"orders":rows(db,"customer_orders",{"customer":customer})}
+        journey=rows(db,"journey",{"customer":customer})
+        orders=rows(db,"customer_orders",{"customer":customer})
+        result,_=analyze(db,model)
+        order_ids={o["order_id"] for o in orders}
+        return {"people":people,"cohorts":cohorts,"journey":journey,"orders":orders,
+                "allocations":[a for a in result["allocations"] if a["conversion_id"] in order_ids],
+                "conversions":[a for a in result["conversions"] if a["conversion_id"] in order_ids],
+                "model":model,"queries":{k:QUERIES[k] for k in ("journey","customer_orders")},"params":{"customer":customer}}
 
 @app.get("/api/evidence")
 def graph_evidence(name: QueryName = "risk", customer: str = Query("U001", pattern=r"^U(00[1-9]|0[1-7][0-9]|080)$")):
