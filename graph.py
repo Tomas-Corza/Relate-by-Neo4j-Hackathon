@@ -14,6 +14,7 @@ CAMPAIGNS = [
 PRODUCTS = [("P1", "Everyday kit", 95, 35, 120), ("P2", "Limited edition", 150, 70, 3), ("P3", "Refill pack", 60, 20, 85)]
 
 QUERIES = {
+    "products": """MATCH (p:Product) RETURN p.id AS product_id, p.name AS product, p.price AS price, p.cost AS unit_cost, p.stock AS stock ORDER BY product_id""",
     "campaigns": """MATCH (c:Campaign)-[:PROMOTES]->(p:Product)
 RETURN c.id AS campaign_id, c.name AS campaign, c.channel AS channel, c.spend AS spend,
 p.name AS product, p.stock AS stock ORDER BY campaign_id""",

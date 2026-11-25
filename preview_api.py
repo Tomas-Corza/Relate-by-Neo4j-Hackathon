@@ -4,6 +4,7 @@ from typing import Literal
 from datetime import date
 from reporting import report
 from finance import financial_summary
+from inventory import inventory_summary
 from fastapi import FastAPI, Query, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
@@ -25,7 +26,7 @@ def overview(model: Model = "linear"):
         nodes, edges = graph_counts(db)
         customers, _ = customer_value(db)
         economics = customer_economics(rows(db,"touches"), rows(db,"orders"), result, campaigns)
-        return {"financials":financial_summary(db),"economics":economics,"totals":result["totals"],"campaigns":campaigns,"nodes":nodes,"edges":edges,
+        return {"inventory":inventory_summary(db),"financials":financial_summary(db),"economics":economics,"totals":result["totals"],"campaigns":campaigns,"nodes":nodes,"edges":edges,
                 "risks":rows(db,"risk"),"purchasers":sum(c["orders"]>0 for c in customers),
                 "repeat":sum(c["orders"]>1 for c in customers),"model":model}
 # Fixed read-only query names and bounded input. No arbitrary Cypher.
