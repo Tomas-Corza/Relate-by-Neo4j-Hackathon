@@ -1,0 +1,70 @@
+import streamlit as st
+import pandas as pd
+import altair as alt
+from graph import rows, QUERIES
+from intelligence import graph_counts, customer_value, path_insights, compare_models, scenario
+from ui_components import money
+
+def graph_view(db):
+    st.subheader("Graph intelligence | Relate by Neo4j")
+    st.caption("Live counts from the embedded graph. The same relationship paths feed the attribution engine and analyst.")
+    nodes,edges=graph_counts(db)
+    for col,(name,count) in zip(st.columns(5),nodes.items()): col.metric(name,count)
+    st.metric("Stored relationships",sum(edges.values()))
+    st.graphviz_chart('''digraph { rankdir=LR; node [shape=box,style=filled,fillcolor="#15485b",fontcolor=white];
+    Customer -> Touchpoint [label="HAS_TOUCH"]; Touchpoint -> Campaign [label="FROM_CAMPAIGN"];
+    Campaign -> Product [label="PROMOTES"]; Customer -> Order [label="PLACED"]; Order -> Product [label="CONTAINS"]; }''')
+    st.dataframe([{"relationship":k,"count":v} for k,v in edges.items()],hide_index=True,use_container_width=True)
+    st.subheader("Inspect actual Cypher and results")
+    name=st.selectbox("Read-only graph query",list(QUERIES),index=list(QUERIES).index("risk"))
+    params={}
+    if name in ("journey","customer_orders"): params={"customer":st.selectbox("Graph customer",[f"U{i:03}" for i in range(1,81)],key="graph_customer")}
+    st.code(QUERIES[name],language="cypher")
+    st.json(params)
+    st.dataframe(rows(db,name,params),hide_index=True,use_container_width=True)
+    st.subheader("Observed paths before first purchase")
+    st.dataframe(path_insights(db),hide_index=True,use_container_width=True)
+    st.caption("Counts among purchasing customers only; not path conversion rates or causal lift.")
+
+def customer_view(db):
+    st.subheader("Observed customer value")
+    people,cohorts=customer_value(db)
+    df=pd.DataFrame(cohorts)
+    a,b,c=st.columns(3)
+    a.metric("Observed customers",len(people))
+    b.metric("Repeat purchasers",sum(p["orders"]>1 for p in people))
+    c.metric("Observed revenue / customer",money(sum(p["revenue"] for p in people)/len(people)) if people else "N/A")
+    st.bar_chart(df.set_index("campaign_id")[["observed_revenue_per_customer","observed_gross_profit_per_customer"]])
+    st.dataframe(df,hide_index=True,use_container_width=True)
+    st.caption("Grouped by earliest recorded campaign touch before first purchase (or earliest touch for non-buyers). Includes non-buyers in customer averages. Not predicted lifetime value, verified acquisition source, or causal credit.")
+    with st.expander("Customer-level evidence"): st.dataframe(people,hide_index=True,use_container_width=True)
+
+def model_view(db):
+    st.subheader("Attribution model sensitivity")
+    df=pd.DataFrame(compare_models(db))
+    st.dataframe(df.pivot(index="campaign",columns="model",values="attributed_revenue"),use_container_width=True)
+    chart=alt.Chart(df).mark_bar().encode(x=alt.X("campaign:N",axis=alt.Axis(labelAngle=-20)),xOffset="model:N",y="attributed_revenue:Q",color="model:N",tooltip=["campaign","model","attributed_revenue","profit_after_ads"]).properties(height=320)
+    st.altair_chart(chart,use_container_width=True)
+    st.caption("Five descriptive allocation models applied to the same graph-linked orders and touchpoints; none measures incremental lift.")
+
+def budget_view(campaigns):
+    st.subheader("Budget scenario simulator")
+    st.info("Hypothetical fixed-budget sensitivity analysis, not a forecast. No advertising changes are made.")
+    paid={c["campaign_id"]:c for c in campaigns if c["spend"]>0}
+    if len(paid)<2: st.warning("At least two paid campaigns required."); return
+    source=st.selectbox("Reduce spend from",list(paid),index=1,format_func=lambda k:paid[k]["campaign"])
+    target=st.selectbox("Transfer spend to",[k for k in paid if k!=source],format_func=lambda k:paid[k]["campaign"])
+    amount=st.number_input("Transfer amount (USD)",min_value=0.0,max_value=float(paid[source]["spend"]),value=0.0,step=25.0,key="transfer_"+source)
+    factor=st.slider("Target marginal efficiency vs. historical gross profit / spend",0,100,50,5)/100
+    data,warnings=scenario(campaigns,source,target,amount,factor)
+    baseline=sum(r["baseline_profit"] for r in data); projected=sum(r["scenario_profit"] for r in data)
+    a,b,c=st.columns(3)
+    a.metric("Fixed total spend",money(sum(r["scenario_spend"] for r in data)))
+    b.metric("Baseline attributed profit",money(baseline))
+    c.metric("Scenario attributed profit",money(projected),delta=money(projected-baseline))
+    for w in warnings: st.warning(w)
+    frame=pd.DataFrame(data)
+    st.bar_chart(frame.set_index("campaign")[["baseline_profit","scenario_profit"]])
+    st.dataframe(frame,hide_index=True,use_container_width=True)
+    st.caption("Source gross profit loss assumes historical gross profit per dollar removed. Target gain assumes historical gross profit per dollar added multiplied by your selected factor. Organic is held constant. No stock-volume caps, cross-channel interactions, demand forecasts or causal effects modeled.")
+    st.download_button("Download scenario CSV",frame.to_csv(index=False),"budget_scenario.csv","text/csv")

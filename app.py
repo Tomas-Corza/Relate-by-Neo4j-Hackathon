@@ -3,12 +3,13 @@ import streamlit as st
 from graph import demo_graph, analyze, rows
 from attribution import MODELS
 from styles import apply_styles
+from advanced_views import graph_view, customer_view, model_view, budget_view
 from ui_components import brand,kpis,campaign_chart,profit_chart,inventory,journeys,recommendations,analyst
 
 st.set_page_config(page_title="OpenClaw Nexus",page_icon="🔗",layout="wide")
 apply_styles()
 brand()
-page=st.sidebar.radio("Navigation",["Executive dashboard","Campaigns","Attribution","Profitability","Inventory","Customers","AI insights","Reports"])
+page=st.sidebar.radio("Navigation",["Executive dashboard","Campaigns","Attribution","Profitability","Inventory","Customers","Graph intelligence","Budget simulator","AI insights","Reports"])
 model=st.sidebar.selectbox("Attribution model",MODELS,index=2)
 st.sidebar.caption("Synthetic data only. No advertising actions. Attribution is descriptive, not causal. Public AI quota is shared.")
 try:
@@ -57,6 +58,7 @@ try:
             st.dataframe(attribution["channels"],hide_index=True,use_container_width=True)
             st.dataframe(attribution["conversions"],hide_index=True,use_container_width=True)
             with st.expander("Touchpoint allocations"): st.dataframe(attribution["allocations"])
+            model_view(db)
         elif page=="Profitability":
             st.subheader("Attributed gross profit less campaign spend")
             profit_chart(campaigns)
@@ -68,7 +70,12 @@ try:
             st.dataframe(rows(db,"campaigns"),hide_index=True,use_container_width=True)
         elif page=="Customers":
             st.subheader("Graph-powered customer journeys")
+            customer_view(db)
             journeys(db)
+        elif page=="Graph intelligence":
+            graph_view(db)
+        elif page=="Budget simulator":
+            budget_view(campaigns)
         elif page=="AI insights":
             st.subheader("Graph evidence and AI analysis")
             recommendations(campaigns,db)
