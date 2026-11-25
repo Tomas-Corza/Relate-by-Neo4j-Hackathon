@@ -11,14 +11,20 @@ git clone https://github.com/Tomas-Corza/Relate-by-Neo4j-Hackathon.git
 cd Relate-by-Neo4j-Hackathon
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements-preview.txt
 python -m unittest discover -s tests -v
-streamlit run app.py
+cd webapp
+npm install
+npm run build
+cd ..
+python -m uvicorn preview_api:app --host 127.0.0.1 --port 8000
 ```
+Requires Node.js 22 (or compatible) and npm. Open http://127.0.0.1:8000 after building. The original Streamlit interface remains available with requirements.txt and streamlit run app.py.
+
 Windows activation: `.venv\Scripts\activate`. No database server or API key required for the deterministic offline analyst. To enable optional OpenAI natural-language synthesis, set OPENAI_API_KEY in your shell; optionally set OPENAI_MODEL (default gpt-4.1-mini). Never commit credentials. The optional model sends synthetic evidence and the question to OpenAI.
 
 ## Architecture
-Synthetic data → embedded Relate 1.2.0 → parameterized Cypher relationship traversal → reused attribution engine → campaign economics and inventory risk → read-only analyst → Streamlit dashboard.
+Synthetic data → embedded Relate 1.2.0 → parameterized Cypher relationship traversal → reused attribution engine → campaign economics and inventory risk → read-only analyst → FastAPI → React dashboard (legacy Streamlit retained).
 
 Relate is the actual data source for all dashboard analytics, not a decorative visualization. Each run creates and closes an isolated in-memory database to avoid shared thread or session state. Graph schema:
 - Customer -HAS_TOUCH-> Touchpoint -FROM_CAMPAIGN-> Campaign -PROMOTES-> Product
@@ -42,13 +48,13 @@ Reused verbatim: `attribution.py` is the original framework's `tools/multi_touch
 New for Nexus: `graph.py` implements embedded Relate, the synthetic graph schema, seed generation, Cypher evidence retrieval and campaign-level margin/spend analysis; `agent.py` implements read-only evidence-based question answering with optional OpenAI synthesis; `app.py` provides a new Streamlit interface with graph visualization and audit views; tests, CI, setup and deployment configuration are new. The original framework's modular, business-focused analytics approach informed the design. The original repository is unchanged. This is not a copy of its full dashboard.
 
 ## AI and third-party disclosure
-Significant AI assistance: ChatGPT helped design the architecture, generate new code, tests, documentation and project thumbnail. The optional runtime OpenAI model summarizes graph-derived evidence; the offline mode is deterministic, not an LLM. Third-party tools: Relate (relate-db), Streamlit, pandas, OpenAI Python SDK, Python standard library and GitHub Actions. See their respective licenses. All records are synthetic; no employer or customer data is used.
+Significant AI assistance: ChatGPT helped design the architecture, generate new code, tests, documentation and project thumbnail. The optional runtime OpenAI model summarizes graph-derived evidence; the offline mode is deterministic, not an LLM. Third-party tools: Relate (relate-db), React, Vite, Recharts, FastAPI, Uvicorn, Streamlit (legacy), pandas, OpenAI Python SDK, Python standard library and GitHub Actions. See their respective licenses. All records are synthetic; no employer or customer data is used.
 
 ## Limitations
 Attribution is rule-based credit, not causal measurement. Gross profit excludes overhead, shipping, tax and returns. Data is fixed synthetic demo data, not live accounts; single-product orders simplify margin calculations. The agent cannot change budgets or execute financial actions. The graph is recreated each run and is not persistent. Relate is an experimental dependency; verify CI and local execution before submission. No performance uplift is claimed.
 
 ## Deployment
-A Procfile is provided for a compatible Python host such as Railway; configure the service to install requirements and expose its assigned PORT. Live demo: https://openclaw-nexus-production-368d712a.up.railway.app (initial deployment and AI response manually verified by the author). GitHub Actions runs the integration tests on push. See https://github.com/Tomas-Corza/Relate-by-Neo4j-Hackathon/actions.
+Production uses the multi-stage Dockerfile and railway.toml to compile React and run FastAPI with Uvicorn on the assigned PORT. The Procfile is legacy. Live demo: https://openclaw-nexus-production-368d712a.up.railway.app (initial deployment and AI response manually verified by the author). GitHub Actions runs the integration tests on push. See https://github.com/Tomas-Corza/Relate-by-Neo4j-Hackathon/actions.
 
 ## Competition
 https://relate.devpost.com/rules — public repository must have topic `relate`; add it in GitHub About settings if absent. Submit a working demo URL or a video of up to two minutes. Review final functionality, reuse disclosure, AI disclosure and applicable licenses before submitting.
@@ -67,3 +73,6 @@ Streamlit CORS and XSRF protection are enabled explicitly, detailed browser erro
 
 ## Premium interface
 Grouped native Streamlit navigation, consistent chart formatting and legends, formatted campaign tables, enhanced KPI cards and branded dark styling. Navigation labels remain unchanged. All analytical functions, security controls and scenario assumptions are preserved.
+
+## Visual graph workspace (November 25, 2026)
+React customer timelines show actual timestamped Relate touchpoints and orders. Select a purchase to inspect the existing attribution engine's per-order allocations under the selected model. Business Connections renders a selectable relationship path from each fixed Cypher query result; raw records, exact queries and parameters remain expandable. These are query-result paths, not inferred causal edges or a full graph layout. No new third-party visual assets or graph libraries are used. Significant ChatGPT assistance includes this UI, API extension and tests; the pre-existing attribution module is unchanged. All data remains synthetic.
