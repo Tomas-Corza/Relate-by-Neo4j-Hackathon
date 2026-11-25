@@ -1,0 +1,8 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+healthcheckPath = "/_stcore/health"
+healthcheckTimeout = 120
+startCommand = "sh -c 'exec python -m uvicorn preview_api:app --host 0.0.0.0 --port ${PORT:-8000} --workers 1'"
