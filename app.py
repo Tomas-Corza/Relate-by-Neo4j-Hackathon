@@ -8,8 +8,8 @@ st.set_page_config(page_title="OpenClaw Nexus",page_icon="🔗",layout="wide")
 st.title("OpenClaw Nexus")
 st.caption("Graph-powered marketing intelligence | Embedded Relate by Neo4j | Synthetic demonstration")
 model=st.sidebar.selectbox("Attribution model",MODELS,index=2)
-st.sidebar.caption("No live business accounts. No advertising actions. Attribution is not causal.")
-question=st.text_input("Ask the graph","Which campaigns have inventory risks?")
+st.sidebar.caption("No live business accounts. No advertising actions. Attribution is not causal. Public AI requests share a limited quota; offline analytics remain available.")
+question=st.text_input("Ask the graph","Which campaigns have inventory risks?",max_chars=500)
 ask=st.button("Investigate",type="primary")
 try:
     with demo_graph() as db:
@@ -26,7 +26,7 @@ try:
                 st.write(answer)
                 with st.expander("Evidence used"): st.json(context)
             except Exception as exc:
-                st.error(f"Analyst request failed ({type(exc).__name__}). Graph dashboard remains available.")
+                st.error("Analyst request failed. Graph dashboard remains available.")
         t1,t2,t3=st.tabs(["Campaign economics","Customer journey","Inventory risk"])
         with t1:
             df=pd.DataFrame(campaigns)
@@ -52,5 +52,5 @@ try:
         with st.expander("Attribution audit"):
             st.dataframe(attribution["conversions"])
 except Exception as exc:
-    st.error(f"Relate initialization or query failed: {type(exc).__name__}: {exc}")
+    st.error("Graph initialization or query failed. Contact the demo administrator.")
     st.stop()
