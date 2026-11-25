@@ -13,11 +13,11 @@ def apply_styles():
     [data-testid="stSidebar"] [data-testid="stButton"] button[kind="secondary"] {background: transparent; color: #d5e2ec;}
     [data-testid="stSidebar"] [data-testid="stButton"] button[kind="primary"] {background: #16434b; color: #83f4ed; border-color: #24646a;}
     [data-testid="stSidebar"] [data-testid="stButton"] button:hover {border-color: #20d8d0;}
-    [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {gap: .12rem;}
+    [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {gap: .22rem;}
     [data-testid="stSidebar"] [data-testid="stButton"] button {
         display: flex !important; justify-content: flex-start !important;
         align-items: center !important; text-align: left !important;
-        min-height: 2.15rem; padding: .25rem .65rem;
+        min-height: 2.4rem; padding: .35rem .75rem; gap: .65rem;
     }
     [data-testid="stSidebar"] [data-testid="stButton"] button > div {
         display: flex !important; width: 100%; justify-content: flex-start !important;
@@ -29,10 +29,10 @@ def apply_styles():
     }
     [data-testid="stSidebar"] [data-testid="stButton"] button [data-testid="stMarkdownContainer"] {flex: 1; min-width: 0;}
     [data-testid="stSidebar"] [data-testid="stButton"] button [data-testid="stIconMaterial"] {flex: 0 0 1.2rem; width: 1.2rem; text-align: center;}
-    .nexus-nav-heading {font-size: .69rem; font-weight: 700; letter-spacing: .11em; color: #91a6ba; margin: .85rem .65rem .2rem;}
-    .nexus-sidebar-brand {display:flex; align-items:center; gap:.65rem; padding:.3rem 0 .8rem;}
+    .nexus-nav-heading {font-size: .69rem; font-weight: 700; letter-spacing: .11em; color: #91a6ba; margin: 1.15rem .75rem .45rem;}
+    .nexus-sidebar-brand {display:flex; align-items:center; gap:.65rem; padding:.3rem 0 1.1rem;}
     .nexus-sidebar-brand img {width:44px; height:44px; object-fit:contain;}
-    .nexus-sidebar-brand strong {font-size:1.05rem; color:#edf5fa; white-space:nowrap;}
+    .nexus-sidebar-brand strong {font-size:1.05rem; color:#edf5fa; white-space:normal;}
     .nexus-sidebar-brand small {display:block; font-size:.65rem; letter-spacing:.08em; color:#91a6ba;}
     .nexus-header {display:flex; align-items:center; gap:1rem; padding:0 0 .25rem;}
     .nexus-header img {width:66px; height:66px; object-fit:contain; flex-shrink:0;}
