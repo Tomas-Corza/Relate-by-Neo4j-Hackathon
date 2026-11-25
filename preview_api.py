@@ -1,6 +1,8 @@
 """Production FastAPI and React workspace backed by embedded Relate."""
 from pathlib import Path
 from typing import Literal
+from datetime import date
+from reporting import report
 from fastapi import FastAPI, Query, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
@@ -55,6 +57,27 @@ def graph_evidence(name: QueryName = "risk", customer: str = Query("U001", patte
     with demo_graph() as db:
         params={"customer":customer} if name in ("journey","customer_orders") else {}
         return {"records":rows(db,name,params),"query":QUERIES[name],"params":params,"paths":path_insights(db),"path_campaigns":[{"campaign_id":c["campaign_id"],"channel":c["channel"],"campaign":c["campaign"]} for c in rows(db,"campaigns")]}
+
+class ReportRequest(BaseModel):
+    scope: Literal["orders","attribution","campaigns"]="campaigns"
+    model: Model="linear"
+    dimension: Literal["channel","campaign","product","customer","day","week","month","cohort"]="channel"
+    breakdown: Literal["channel","campaign","product","customer","day","week","month","cohort"] | None=None
+    metrics: list[Literal["revenue","gross_profit","orders","purchasing_customers","average_order_value","repeat_purchase_rate","attributed_revenue","attributed_gross_profit","conversion_credit","acquisition_credit","spend","profit_after_ads","roas","cpa","cac_proxy","inventory"]]=Field(min_length=1,max_length=10)
+    start: date | None=None
+    end: date | None=None
+    filter_dimension: Literal["channel","campaign","product","customer","day","week","month","cohort"] | None=None
+    filter_value: str | None=Field(default=None,max_length=100)
+    sort: str=Field(max_length=40)
+    descending: bool=True
+
+@app.post("/api/reports")
+def custom_report(body: ReportRequest):
+    try:
+        with demo_graph() as db:
+            return report(db,body.model_dump())
+    except ValueError as exc:
+        raise HTTPException(422,str(exc))
 
 class BudgetRequest(BaseModel):
     model: Model = "linear"
