@@ -4,6 +4,7 @@ from typing import Literal
 from datetime import date
 from reporting import report
 from finance import financial_summary
+from sensitivity import sensitivity
 from inventory import inventory_summary
 from fastapi import FastAPI, Query, HTTPException, Request
 from fastapi.responses import JSONResponse
@@ -39,7 +40,8 @@ def health():
 def audit(model: Model = "linear"):
     with demo_graph() as db:
         result, _ = analyze(db, model)
-        return {"result":result,"comparison":compare_models(db)}
+        comparison=compare_models(db)
+        return {"result":result,"comparison":comparison,"sensitivity":sensitivity(comparison)}
 
 @app.get("/api/customers")
 def customers(customer: str = Query("U001", pattern=r"^U(00[1-9]|0[1-7][0-9]|080)$"), model: Model = "linear"):
