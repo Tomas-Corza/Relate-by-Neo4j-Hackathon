@@ -13,28 +13,22 @@ LOGO = Path(__file__).parent / "assets" / "corza-logo.b64"
 def brand():
     import io
     from PIL import Image
-    logo = None
+    logo_html = ""
     try:
         if LOGO.exists():
             with Image.open(io.BytesIO(base64.b64decode(LOGO.read_text().strip()))) as im:
-                logo = im.convert("RGBA")
+                buffer = io.BytesIO()
+                im.convert("RGBA").save(buffer, format="PNG")
+                encoded = base64.b64encode(buffer.getvalue()).decode("ascii")
+                logo_html = f'<img src="data:image/png;base64,{encoded}" alt="Corza Marketing logo">'
     except Exception:
         pass
-    if logo is not None:
-        st.sidebar.image(logo, width=80)
-    st.sidebar.markdown("**CORZA MARKETING**")
-    st.sidebar.caption("OPENCLAW NEXUS / WORKSPACE")
-    left, right = st.columns([1, 8], vertical_alignment="center")
-    with left:
-        if logo is not None:
-            st.image(logo, width=112)
-        else:
-            st.markdown("## CM")
-    with right:
-        st.markdown("<div class='nexus-kicker'>Corza Marketing / Executive intelligence</div>", unsafe_allow_html=True)
-        st.markdown("# OpenClaw <span class='nexus-accent'>Nexus</span>", unsafe_allow_html=True)
-        st.caption("A Corza Marketing product • Powered by Relate by Neo4j • Synthetic demo data")
-    st.markdown("<div class='nexus-rule'></div>", unsafe_allow_html=True)
+    st.sidebar.markdown(
+        f'<div class="nexus-sidebar-brand">{logo_html}<div><strong>OpenClaw <span class="nexus-accent">Nexus</span></strong><small>BY CORZA MARKETING</small></div></div>',
+        unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="nexus-header">{logo_html}<div><div class="nexus-kicker">Corza Marketing / Executive intelligence</div><h1>OpenClaw <span class="nexus-accent">Nexus</span></h1><p>Powered by Relate by Neo4j · Synthetic demo data</p></div></div><div class="nexus-rule"></div>',
+        unsafe_allow_html=True)
 
 
 def navigation():
@@ -46,7 +40,7 @@ def navigation():
     if "nexus_page" not in st.session_state:
         st.session_state["nexus_page"] = "Executive dashboard"
     for heading, entries in groups:
-        st.sidebar.caption(heading)
+        st.sidebar.markdown(f'<div class="nexus-nav-heading">{heading}</div>', unsafe_allow_html=True)
         for label, icon in entries:
             st.sidebar.button(label, icon=f":material/{icon}:", key="nav_"+label,
                 type="primary" if st.session_state["nexus_page"] == label else "secondary",
