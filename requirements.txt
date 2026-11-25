@@ -1,6 +1,6 @@
 relate-db==1.2.0
 streamlit>=1.40,<2
-pandas>=2.2,<3
+pandas>=3.1.1,<4
 openai>=1.70,<3
 altair>=5,<7
 setuptools>=84.1.0
