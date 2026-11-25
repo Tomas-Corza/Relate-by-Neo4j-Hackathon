@@ -54,7 +54,7 @@ def customers(customer: str = Query("U001", pattern=r"^U(00[1-9]|0[1-7][0-9]|080
 def graph_evidence(name: QueryName = "risk", customer: str = Query("U001", pattern=r"^U(00[1-9]|0[1-7][0-9]|080)$")):
     with demo_graph() as db:
         params={"customer":customer} if name in ("journey","customer_orders") else {}
-        return {"records":rows(db,name,params),"query":QUERIES[name],"params":params,"paths":path_insights(db)}
+        return {"records":rows(db,name,params),"query":QUERIES[name],"params":params,"paths":path_insights(db),"path_campaigns":[{"campaign_id":c["campaign_id"],"channel":c["channel"],"campaign":c["campaign"]} for c in rows(db,"campaigns")]}
 
 class BudgetRequest(BaseModel):
     model: Model = "linear"
