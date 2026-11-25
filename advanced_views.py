@@ -15,16 +15,37 @@ def graph_view(db):
     Customer -> Touchpoint [label="HAS_TOUCH"]; Touchpoint -> Campaign [label="FROM_CAMPAIGN"];
     Campaign -> Product [label="PROMOTES"]; Customer -> Order [label="PLACED"]; Order -> Product [label="CONTAINS"]; }''')
     st.dataframe([{"relationship":k,"count":v} for k,v in edges.items()],hide_index=True,use_container_width=True)
-    st.subheader("Inspect actual Cypher and results")
-    name=st.selectbox("Read-only graph query",list(QUERIES),index=list(QUERIES).index("risk"))
+    st.subheader("Graph evidence explorer")
+    st.caption("Choose a business question to inspect the results of a read-only query against Relate.")
+    query_labels={
+        "campaigns":"Campaigns and promoted products",
+        "touches":"Customer marketing touchpoints",
+        "orders":"Customer orders and product economics",
+        "journey":"Individual customer journey",
+        "customer_orders":"Individual customer purchases",
+        "risk":"Paid campaigns with low inventory",
+    }
+    name=st.selectbox("Read-only graph query",list(QUERIES),index=list(QUERIES).index("risk"),format_func=lambda key:query_labels.get(key,key))
     params={}
     if name in ("journey","customer_orders"): params={"customer":st.selectbox("Graph customer",[f"U{i:03}" for i in range(1,81)],key="graph_customer")}
-    st.code(QUERIES[name],language="cypher")
-    if params:
-        with st.expander("Query parameters"): st.json(params)
-    st.dataframe(rows(db,name,params),hide_index=True,use_container_width=True)
+    records=rows(db,name,params)
+    st.caption(f"{len(records):,} matching records · Live embedded graph results")
+    st.dataframe(records,hide_index=True,use_container_width=True,column_config={
+        "campaign_id":"Campaign ID","campaign":"Campaign","channel":"Channel",
+        "customer_id":"Customer ID","touchpoint_id":"Touchpoint ID","touchpoint":"Touchpoint",
+        "conversion_id":"Conversion ID","order_id":"Order ID","occurred_at":"Touchpoint time",
+        "converted_at":"Purchase time","product":"Product","promoted_product":"Promoted product",
+        "stock":st.column_config.NumberColumn("Units in stock",format="%d"),
+        "spend":st.column_config.NumberColumn("Campaign spend",format="dollar"),
+        "revenue":st.column_config.NumberColumn("Revenue",format="dollar"),
+        "cost":st.column_config.NumberColumn("Product cost",format="dollar"),
+    })
+    with st.expander("Technical audit — View Cypher query"):
+        st.caption("Exact parameterized read-only query executed against Relate.")
+        st.code(QUERIES[name],language="cypher")
+        if params: st.json(params)
     st.subheader("Observed paths before first purchase")
-    st.dataframe(path_insights(db),hide_index=True,use_container_width=True)
+    st.dataframe(path_insights(db),hide_index=True,use_container_width=True,column_config={"path":"Campaign path","purchasing_customers":"Purchasing customers"})
     st.caption("Counts among purchasing customers only; not path conversion rates or causal lift.")
 
 def customer_view(db):
