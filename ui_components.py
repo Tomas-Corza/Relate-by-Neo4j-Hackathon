@@ -10,11 +10,29 @@ from agent import investigate
 LOGO = Path(__file__).parent / "assets" / "corza-logo.b64"
 
 def brand():
-    if LOGO.exists():
-        st.sidebar.image(base64.b64decode(LOGO.read_text().strip()), width=112)
+    import io
+    from PIL import Image
+    logo = None
+    try:
+        if LOGO.exists():
+            with Image.open(io.BytesIO(base64.b64decode(LOGO.read_text().strip()))) as im:
+                logo = im.convert("RGBA")
+    except Exception:
+        pass
+    if logo is not None:
+        st.sidebar.image(logo, width=112)
     st.sidebar.markdown("**CORZA MARKETING**")
-    st.markdown("# OpenClaw <span class='nexus-accent'>Nexus</span>", unsafe_allow_html=True)
-    st.caption("Executive intelligence • Powered by Relate by Neo4j • Synthetic demo data")
+    left, right = st.columns([1, 8], vertical_alignment="center")
+    with left:
+        if logo is not None:
+            st.image(logo, width=112)
+        else:
+            st.markdown("## CM")
+    with right:
+        st.markdown("**CORZA MARKETING  /  EXECUTIVE INTELLIGENCE**")
+        st.markdown("# OpenClaw <span class='nexus-accent'>Nexus</span>", unsafe_allow_html=True)
+        st.caption("A Corza Marketing product • Powered by Relate by Neo4j • Synthetic demo data")
+
 
 def money(value):
     return f"${value:,.2f}" if value >= 0 else f"-${abs(value):,.2f}"
