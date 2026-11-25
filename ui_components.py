@@ -21,8 +21,9 @@ def brand():
     except Exception:
         pass
     if logo is not None:
-        st.sidebar.image(logo, width=112)
+        st.sidebar.image(logo, width=80)
     st.sidebar.markdown("**CORZA MARKETING**")
+    st.sidebar.caption("OPENCLAW NEXUS / WORKSPACE")
     left, right = st.columns([1, 8], vertical_alignment="center")
     with left:
         if logo is not None:
@@ -30,15 +31,57 @@ def brand():
         else:
             st.markdown("## CM")
     with right:
-        st.markdown("**CORZA MARKETING  /  EXECUTIVE INTELLIGENCE**")
+        st.markdown("<div class='nexus-kicker'>Corza Marketing / Executive intelligence</div>", unsafe_allow_html=True)
         st.markdown("# OpenClaw <span class='nexus-accent'>Nexus</span>", unsafe_allow_html=True)
         st.caption("A Corza Marketing product • Powered by Relate by Neo4j • Synthetic demo data")
+    st.markdown("<div class='nexus-rule'></div>", unsafe_allow_html=True)
 
+
+def navigation():
+    groups = [
+        ("OVERVIEW", [("Executive dashboard", "dashboard"), ("Campaigns", "campaign"), ("Attribution", "pie_chart"), ("Profitability", "payments")]),
+        ("INTELLIGENCE", [("Inventory", "inventory_2"), ("Customers", "group"), ("Graph intelligence", "hub"), ("Budget simulator", "tune"), ("AI insights", "auto_awesome")]),
+        ("WORKSPACE", [("Reports", "description")]),
+    ]
+    if "nexus_page" not in st.session_state:
+        st.session_state["nexus_page"] = "Executive dashboard"
+    for heading, entries in groups:
+        st.sidebar.caption(heading)
+        for label, icon in entries:
+            st.sidebar.button(label, icon=f":material/{icon}:", key="nav_"+label,
+                type="primary" if st.session_state["nexus_page"] == label else "secondary",
+                use_container_width=True, on_click=_navigate, args=(label,))
+    st.sidebar.divider()
+    return st.session_state["nexus_page"]
+
+def _navigate(label):
+    st.session_state["nexus_page"] = label
+
+def campaign_table(campaigns):
+    df = pd.DataFrame(campaigns)
+    st.dataframe(df, hide_index=True, use_container_width=True, column_config={
+        "campaign_id": "ID", "campaign": "Campaign", "channel": "Channel",
+        "product": "Promoted product", "stock": st.column_config.NumberColumn("Stock", format="%d"),
+        "spend": st.column_config.NumberColumn("Spend", format="dollar"),
+        "revenue": st.column_config.NumberColumn("Attributed revenue", format="dollar"),
+        "gross_profit": st.column_config.NumberColumn("Attributed gross profit", format="dollar"),
+        "profit_after_ads": st.column_config.NumberColumn("Profit after ads", format="dollar"),
+        "roas": st.column_config.NumberColumn("ROAS", format="%.2fx"),
+    })
+
+def polish_chart(chart):
+    return chart.configure_view(strokeOpacity=0).configure_axis(
+        labelColor="#c2d3e1", titleColor="#a9c0d0", gridColor="#294052",
+        domain=False, tickColor="#294052", labelFontSize=12
+    ).configure_legend(labelColor="#c2d3e1", titleColor="#a9c0d0",
+        orient="top", labelFontSize=12).configure(background="transparent")
 
 def money(value):
     return f"${value:,.2f}" if value >= 0 else f"-${abs(value):,.2f}"
 
 def kpis(totals, campaigns):
+    st.subheader("Performance overview")
+    st.caption("Campaign-period results · Synthetic business dataset")
     spend=sum(c["spend"] for c in campaigns)
     rev=float(totals["total_revenue"])
     attributed=float(totals["attributed_revenue"])
@@ -51,19 +94,20 @@ def kpis(totals, campaigns):
 def campaign_chart(campaigns):
     df=pd.DataFrame(campaigns)
     long=df.melt(id_vars=["campaign"],value_vars=["revenue","gross_profit","spend"],var_name="metric",value_name="amount")
+    long["metric"]=long["metric"].map({"revenue":"Attributed revenue","gross_profit":"Gross profit","spend":"Campaign spend"})
     chart=alt.Chart(long).mark_bar(cornerRadiusTopLeft=3,cornerRadiusTopRight=3).encode(
         x=alt.X("campaign:N",title=None,axis=alt.Axis(labelAngle=-20)),
-        xOffset="metric:N",y=alt.Y("amount:Q",title="USD"),
-        color=alt.Color("metric:N",scale=alt.Scale(domain=["revenue","gross_profit","spend"],range=["#20d8d0","#6689e8","#8394a6"]),title=None),
-        tooltip=["campaign","metric",alt.Tooltip("amount:Q",format=",.2f")]).properties(height=280)
-    st.altair_chart(chart,use_container_width=True)
+        xOffset="metric:N",y=alt.Y("amount:Q",title="USD",axis=alt.Axis(format="$,.0f")),
+        color=alt.Color("metric:N",scale=alt.Scale(domain=["Attributed revenue","Gross profit","Campaign spend"],range=["#20d8d0","#6689e8","#8394a6"]),title=None),
+        tooltip=["campaign","metric",alt.Tooltip("amount:Q",format="$,.2f")]).properties(height=280)
+    st.altair_chart(polish_chart(chart),use_container_width=True)
 
 def profit_chart(campaigns):
     chart=alt.Chart(pd.DataFrame(campaigns)).mark_bar(cornerRadiusEnd=4).encode(
         y=alt.Y("campaign:N",sort="-x",title=None),x=alt.X("profit_after_ads:Q",title="USD"),
         color=alt.condition(alt.datum.profit_after_ads>=0,alt.value("#20d8d0"),alt.value("#ff7885")),
         tooltip=["campaign",alt.Tooltip("profit_after_ads:Q",format=",.2f")]).properties(height=280)
-    st.altair_chart(chart,use_container_width=True)
+    st.altair_chart(polish_chart(chart),use_container_width=True)
 
 def inventory(db):
     risks=rows(db,"risk")
@@ -119,5 +163,7 @@ def analyst(db,model):
     if "nexus_answer" in st.session_state:
         answer,context,asked,used_model=st.session_state["nexus_answer"]
         st.caption(f"Last analysis • {used_model} • {asked}")
-        st.text(answer)
+        with st.container(border=True):
+            st.markdown("**Analyst response**")
+            st.text(answer)
         with st.expander("Evidence used"): st.json(context)

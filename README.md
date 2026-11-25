@@ -64,3 +64,6 @@ New hackathon modules `intelligence.py` and `advanced_views.py` expose actual Re
 
 ## Additional security hardening
 Streamlit CORS and XSRF protection are enabled explicitly, detailed browser errors are hidden, and message sizes are bounded. Analyst output is rendered as plain text to avoid model-generated remote images and active links. A session cooldown supplements the atomic global quota; it is not an identity-based limit. OpenAI completion storage is explicitly disabled (provider abuse-monitoring retention may still apply). Do not submit confidential or personal data. CI uses read-only repository permissions and does not persist checkout credentials; a separate security workflow scans reachable commit patches for common credential formats and audits installed Python dependencies. Dependabot proposes weekly updates. See SECURITY.md for reporting guidance. These controls do not establish that the software is vulnerability-free.
+
+## Premium interface
+Grouped native Streamlit navigation, consistent chart formatting and legends, formatted campaign tables, enhanced KPI cards and branded dark styling. Navigation labels remain unchanged. All analytical functions, security controls and scenario assumptions are preserved.
