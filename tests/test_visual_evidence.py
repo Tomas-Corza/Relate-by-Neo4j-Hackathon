@@ -21,3 +21,12 @@ class VisualEvidenceTests(unittest.TestCase):
         self.assertTrue(d["journey"])
         r=graph_evidence("risk","U001")
         self.assertTrue(any(x["campaign_id"]=="C2" and x["stock"]==3 for x in r["records"]))
+
+    def test_path_display_evidence(self):
+        d=graph_evidence("risk","U001")
+        self.assertEqual(sum(p["purchasing_customers"] for p in d["paths"]),60)
+        ids={c["campaign_id"] for c in d["path_campaigns"]}
+        self.assertEqual(ids,{"C1","C2","C3","C4"})
+        for p in d["paths"]:
+            if p["path"]!="No observed touch":
+                self.assertTrue(set(p["path"].split(" → ")).issubset(ids))
