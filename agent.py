@@ -3,8 +3,12 @@ import json
 import os
 import re
 from graph import evidence, rows
+from quota import reserve
 
 def investigate(db, question, model="linear", api_key=None):
+    question = str(question).strip()
+    if not question or len(question) > 500:
+        raise ValueError("Enter a question between 1 and 500 characters.")
     context = evidence(db,model)
     customer = re.search(r"\bU\d{3}\b",question,re.I)
     if customer:
@@ -12,10 +16,18 @@ def investigate(db, question, model="linear", api_key=None):
         context["customer_journey"]=rows(db,"journey",{"customer":uid})
         context["customer_orders"]=rows(db,"customer_orders",{"customer":uid})
     key=api_key or os.getenv("OPENAI_API_KEY")
+    notice = ""
+    if key:
+        try:
+            allowed, notice = reserve()
+        except Exception:
+            allowed, notice = False, "AI quota storage unavailable."
+        if not allowed:
+            key = None
     if key:
         from openai import OpenAI
         client=OpenAI(api_key=key,timeout=25,max_retries=0)
-        response=client.chat.completions.create(model=os.getenv("OPENAI_MODEL","gpt-4.1-mini"),messages=[
+        response=client.chat.completions.create(max_completion_tokens=500,model=os.getenv("OPENAI_MODEL","gpt-4.1-mini"),messages=[
             {"role":"system","content":"You are a read-only marketing analyst. Answer solely from the supplied synthetic evidence. Cite campaign or order IDs, distinguish recommendations from facts, do not claim causality or execute changes. Say when evidence is insufficient."},
             {"role":"user","content":json.dumps({"question":question,"evidence":context})}])
         return response.choices[0].message.content,context
@@ -27,5 +39,5 @@ def investigate(db, question, model="linear", api_key=None):
         ranked=sorted(context["campaigns"],key=lambda c:c["profit_after_ads"],reverse=True)
         answer="Descriptive profit after ads: "+ "; ".join(f"{c['campaign_id']} {c['campaign']}: ${c['profit_after_ads']:,.2f}" for c in ranked)+". Review negative contributors and inventory constraints before changing budgets."
     else:
-        answer="Offline analyst supports campaign profitability, inventory risks and customer journeys (e.g. U001). Add an OpenAI key for broader natural-language analysis of this evidence."
-    return answer,context
+        answer="Offline analyst supports campaign profitability, inventory risks and customer journeys (e.g. U001). Broader AI analysis is available when enabled by the administrator."
+    return ((notice+" Offline analysis: "+answer) if notice else answer),context
