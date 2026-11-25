@@ -5,14 +5,15 @@ from graph import demo_graph, analyze, rows
 from attribution import MODELS
 from styles import apply_styles
 from advanced_views import graph_view, customer_view, model_view, budget_view
-from ui_components import brand,kpis,campaign_chart,profit_chart,inventory,journeys,recommendations,analyst
+from ui_components import brand,kpis,campaign_chart,profit_chart,inventory,journeys,recommendations,analyst,navigation,campaign_table
 
 st.set_page_config(page_title="OpenClaw Nexus",page_icon="🔗",layout="wide")
 apply_styles()
 brand()
-page=st.sidebar.radio("Navigation",["Executive dashboard","Campaigns","Attribution","Profitability","Inventory","Customers","Graph intelligence","Budget simulator","AI insights","Reports"])
+page=navigation()
 model=st.sidebar.selectbox("Attribution model",MODELS,index=2)
-st.sidebar.caption("Synthetic data only. No advertising actions. Attribution is descriptive, not causal. Public AI quota is shared.")
+st.sidebar.caption("Synthetic demo environment · No live accounts")
+st.sidebar.caption("Attribution is descriptive, not causal. Public AI quota is shared.")
 try:
     with demo_graph() as db:
         attribution,campaigns=analyze(db,model)
@@ -52,7 +53,7 @@ try:
         elif page=="Campaigns":
             st.subheader("Campaign economics")
             campaign_chart(campaigns)
-            st.dataframe(campaigns,hide_index=True,use_container_width=True)
+            campaign_table(campaigns)
         elif page=="Attribution":
             st.subheader("Attribution audit")
             st.caption("Revenue reconciliation and attribution integrity")
@@ -98,7 +99,7 @@ try:
         elif page=="Profitability":
             st.subheader("Attributed gross profit less campaign spend")
             profit_chart(campaigns)
-            st.dataframe(campaigns,hide_index=True,use_container_width=True)
+            campaign_table(campaigns)
             st.caption("Excludes overhead, taxes, shipping and returns.")
         elif page=="Inventory":
             st.subheader("Inventory risk")
@@ -117,7 +118,8 @@ try:
             recommendations(campaigns,db)
             analyst(db,model)
         elif page=="Reports":
-            st.subheader("Export synthetic analytics")
+            st.subheader("Reporting workspace")
+            st.caption("Export auditable campaign and conversion records for independent analysis.")
             st.download_button("Campaign report CSV",pd.DataFrame(campaigns).to_csv(index=False),"campaigns.csv","text/csv")
             st.download_button("Attribution audit CSV",pd.DataFrame(attribution["conversions"]).to_csv(index=False),"attribution.csv","text/csv")
         st.caption("OpenClaw Nexus · Corza Marketing · Relate by Neo4j Hackathon")
