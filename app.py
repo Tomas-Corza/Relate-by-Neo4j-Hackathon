@@ -4,11 +4,13 @@ import streamlit as st
 from graph import demo_graph, analyze, rows
 from attribution import MODELS
 from styles import apply_styles
+from frontend import executive_dashboard, apply_frontend_styles
 from advanced_views import graph_view, customer_view, model_view, budget_view
 from ui_components import brand,kpis,campaign_chart,profit_chart,inventory,journeys,recommendations,analyst,navigation,campaign_table
 
 st.set_page_config(page_title="OpenClaw Nexus",page_icon="🔗",layout="wide")
 apply_styles()
+apply_frontend_styles()
 brand()
 page=navigation()
 model=st.sidebar.selectbox("Attribution model",MODELS,index=2)
@@ -18,38 +20,7 @@ try:
     with demo_graph() as db:
         attribution,campaigns=analyze(db,model)
         if page=="Executive dashboard":
-            kpis(attribution["totals"],campaigns)
-            left,right=st.columns([1.2,1])
-            with left:
-                with st.container(border=True):
-                    st.subheader("Campaign performance")
-                    campaign_chart(campaigns)
-            with right:
-                with st.container(border=True):
-                    st.subheader("Profitability comparison")
-                    profit_chart(campaigns)
-            a,b,c=st.columns(3)
-            with a:
-                with st.container(border=True):
-                    st.subheader("Inventory risk")
-                    inventory(db)
-            with b:
-                with st.container(border=True):
-                    st.subheader("Customer journey")
-                    orders=rows(db,"orders")
-                    touches=rows(db,"touches")
-                    counts=pd.Series([o["customer_id"] for o in orders]).value_counts()
-                    st.metric("Purchasing customers",len(counts))
-                    st.metric("Repeat customers",int((counts>1).sum()))
-                    st.metric("Recorded touchpoints",len(touches))
-                    st.caption("Explore individual paths in Customers.")
-            with c:
-                with st.container(border=True):
-                    st.subheader("Recommended reviews")
-                    recommendations(campaigns,db)
-            with st.container(border=True):
-                st.subheader("AI analyst")
-                analyst(db,model)
+            executive_dashboard(db, attribution["totals"], campaigns, model)
         elif page=="Campaigns":
             st.subheader("Campaign economics")
             campaign_chart(campaigns)
