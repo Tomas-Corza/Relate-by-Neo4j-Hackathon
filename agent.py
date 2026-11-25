@@ -27,7 +27,7 @@ def investigate(db, question, model="linear", api_key=None):
     if key:
         from openai import OpenAI
         client=OpenAI(api_key=key,timeout=25,max_retries=0)
-        response=client.chat.completions.create(max_completion_tokens=500,model=os.getenv("OPENAI_MODEL","gpt-4.1-mini"),messages=[
+        response=client.chat.completions.create(store=False,max_completion_tokens=500,model=os.getenv("OPENAI_MODEL","gpt-4.1-mini"),messages=[
             {"role":"system","content":"You are a read-only marketing analyst. Answer solely from the supplied synthetic evidence. Cite campaign or order IDs, distinguish recommendations from facts, do not claim causality or execute changes. Say when evidence is insufficient. Never call organic revenue pure profit. Do not imply historical ROAS predicts marginal returns; recommend controlled tests and distinguish gross profit less advertising from net profit."},
             {"role":"user","content":json.dumps({"question":question,"evidence":context})}])
         return response.choices[0].message.content,context

@@ -1,4 +1,5 @@
 import os
+import time
 from pathlib import Path
 import base64
 import streamlit as st
@@ -99,12 +100,17 @@ def recommendations(campaigns, db):
 
 def analyst(db,model):
     st.caption("AI configured" if os.getenv("OPENAI_API_KEY") else "Offline analyst mode")
-    st.caption("A configured key does not guarantee provider availability. Shared quotas apply.")
+    st.caption("A configured key does not guarantee provider availability. Shared quotas apply. Questions may be sent to OpenAI; do not enter personal or confidential information.")
     prompts=["Which campaigns have inventory risks?","Compare campaign profitability and suggest a controlled budget test.","Explain the customer journey for U001.","What are the limitations of this attribution model?"]
     chosen=st.selectbox("Suggested questions",prompts)
     question=st.text_area("Ask the graph",value=chosen,max_chars=500,key="ask_"+str(prompts.index(chosen)))
     if st.button("Investigate",type="primary"):
         try:
+            now=time.monotonic()
+            if now-st.session_state.get("nexus_last_request",-1000000)<15:
+                st.warning("Please wait 15 seconds between analyst requests.")
+                return
+            st.session_state["nexus_last_request"]=now
             with st.spinner("Analyzing graph evidence…"):
                 answer,context=investigate(db,question,model)
             st.session_state["nexus_answer"]=(answer,context,question,model)
@@ -113,5 +119,5 @@ def analyst(db,model):
     if "nexus_answer" in st.session_state:
         answer,context,asked,used_model=st.session_state["nexus_answer"]
         st.caption(f"Last analysis • {used_model} • {asked}")
-        st.write(answer)
+        st.text(answer)
         with st.expander("Evidence used"): st.json(context)
