@@ -3,6 +3,10 @@ from pathlib import Path
 from typing import Literal
 from datetime import date
 from reporting import report
+from network import network
+from store import create_store
+from tempfile import TemporaryDirectory
+from fastapi.responses import Response
 from finance import financial_summary
 from sensitivity import sensitivity
 from inventory import inventory_summary
@@ -35,6 +39,19 @@ QueryName = Literal["campaigns","touches","orders","journey","customer_orders","
 @app.get("/_stcore/health")
 def health():
     return {"status":"ok"}
+
+@app.get("/api/network")
+def graph_network():
+    with demo_graph() as db:
+        return network(db)
+
+@app.get("/api/demo-store")
+def demo_store():
+    # Isolated temporary file; no user paths or persistent shared writes.
+    with TemporaryDirectory() as directory:
+        path=Path(directory)/"nexus-demo.rl"
+        create_store(path)
+        return Response(path.read_bytes(),media_type="application/octet-stream",headers={"Content-Disposition":"attachment; filename=nexus-demo.rl"})
 
 @app.get("/api/audit")
 def audit(model: Model = "linear"):
