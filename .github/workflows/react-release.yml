@@ -28,3 +28,9 @@ jobs:
       - run: pip install -r requirements-preview.txt
       - run: python -m unittest discover -s tests -v
       - run: python -c "from preview_api import overview; d=overview('linear'); assert d['economics']['first_observed_purchasers']==60; assert len(d['campaigns'])==4"
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate production Docker image
+        run: docker build -t nexus-release-validation .
