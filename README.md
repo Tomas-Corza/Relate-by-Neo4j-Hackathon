@@ -110,3 +110,6 @@ See [BENCHMARK.md](BENCHMARK.md) for the predefined three-arm, six-question loca
 
 ## Business Connections navigation
 The workspace defaults to business insights (low-stock campaign exposure and shared product relationships), with separate Graph explorer and Purchase paths views. Contextual graph buttons focus actual connected IDs. The graph starts with touchpoints hidden for clarity, uses compact columns and readable property labels; advanced filters and exact queries remain accessible. All six original evidence queries, purchase paths, and persistent store download remain available. No graph records or analytical formulas changed. ChatGPT assisted with this usability refinement.
+
+## Business map
+Business Connections now starts with a clickable aggregate map of actual stored entity counts and relationship types, then offers four business-oriented questions and four additional record queries. Only the selected question is shown. Product performance combines observed sales, unique product stock and associated campaign spend without attributing sales to campaigns. The full graph explorer remains optional, and readable business records are separate from collapsed developer query audits. No synthetic records, formulas or backend APIs were changed. ChatGPT assisted with the interface refinement.
