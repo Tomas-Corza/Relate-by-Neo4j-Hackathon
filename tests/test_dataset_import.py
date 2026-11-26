@@ -8,7 +8,7 @@ from dataset_import import load_dataset, import_dataset, summarize_store
 from attribution import MODELS
 from store import inspect_store
 
-SAMPLE=Path(__file__).resolve().parents[1]/"examples"/"synthetic-import"
+SAMPLE=Path(__file__).resolve().parent/"fixtures"/"import-small"
 
 class DatasetImportTests(unittest.TestCase):
     def test_import_and_reopen(self):

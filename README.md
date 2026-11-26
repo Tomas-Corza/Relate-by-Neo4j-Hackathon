@@ -123,12 +123,15 @@ The AI assistant page now includes the completed 18-response benchmark. Nexus us
 
 ## Local synthetic CSV import
 
-Nexus can now validate five linked CSV tables and construct a new persistent Relate database with the same schema as the original demo. Try the [second synthetic dataset and schema](examples/synthetic-import/README.md):
+Nexus can now validate five linked CSV tables and construct a new persistent Relate database with the same schema as the original demo. Reproduce the [original Nexus dataset and schema](examples/synthetic-import/README.md). Download the five CSV files as a ZIP from Business Connections or generate them locally:
 
 ```bash
-python dataset_import.py validate examples/synthetic-import
-python dataset_import.py import examples/synthetic-import imported-demo.rl
+python dataset_export.py nexus-original-csv
+python dataset_import.py validate nexus-original-csv
+python dataset_import.py import nexus-original-csv imported-demo.rl
 python dataset_import.py summary imported-demo.rl --model linear
 ```
 
 The summary uses the existing attribution, finance, inventory and customer-economics functions on the imported store. Invalid records or dangling relationships are rejected before any store is published. Existing stores are never overwritten. No AI API calls, public upload endpoint, production configuration changes or dashboard dataset switching. Use fictional data only. ChatGPT assisted with the implementation and tests.
+
+The canonical export is generated directly from the existing Relate graph. Automated round-trip tests compare all stored nodes and relationships, five attribution models, recorded financials, inventory and selected customer journeys. The alternate small dataset remains an internal validation fixture only. No public uploads or dataset switching.
