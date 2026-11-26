@@ -21,6 +21,7 @@ from fastapi.staticfiles import StaticFiles
 from graph import demo_graph, analyze, rows, QUERIES
 from intelligence import graph_counts, customer_value, path_insights, compare_models, scenario
 from agent import investigate
+from investigation import run_investigation
 from customer_economics import customer_economics
 app = FastAPI(title="OpenClaw Nexus", docs_url=None, redoc_url=None, openapi_url=None)
 Model = Literal["first_touch","last_touch","linear","position_based","time_decay"]
@@ -143,8 +144,7 @@ def analyst(body: AnalystRequest, request: Request):
             _recent.popitem(last=False)
     try:
         with demo_graph() as db:
-            answer,context=investigate(db,body.question,body.model)
-            return {"answer":answer,"context":context,"model":body.model}
+            return run_investigation(db,body.question,body.model)
     except Exception:
         raise HTTPException(503,"Analyst request failed. Dashboard remains available.")
 
