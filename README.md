@@ -51,7 +51,7 @@ New for Nexus: `graph.py` implements embedded Relate, the synthetic graph schema
 Significant AI assistance: ChatGPT helped design the architecture, generate new code, tests, documentation and project thumbnail. The optional runtime OpenAI model summarizes graph-derived evidence; the offline mode is deterministic, not an LLM. Third-party tools: Relate (relate-db), React, Vite, Recharts, FastAPI, Uvicorn, Streamlit (legacy), pandas, OpenAI Python SDK, Python standard library and GitHub Actions. See their respective licenses. All records are synthetic; no employer or customer data is used.
 
 ## Limitations
-Attribution is rule-based credit, not causal measurement. Gross profit excludes overhead, shipping, tax and returns. Data is fixed synthetic demo data, not live accounts; single-product orders simplify margin calculations. The agent cannot change budgets or execute financial actions. The graph is recreated each run and is not persistent. Relate is an experimental dependency; verify CI and local execution before submission. No performance uplift is claimed.
+Attribution is rule-based credit, not causal measurement. Gross profit excludes overhead, shipping, tax and returns. Data is fixed synthetic demo data, not live accounts; single-product orders simplify margin calculations. The agent cannot change budgets or execute financial actions. The public demo graph is recreated for each request; a persistent synthetic store can be downloaded or generated locally. Relate is an experimental dependency; verify CI and local execution before submission. No performance uplift is claimed.
 
 ## Deployment
 Production uses the multi-stage Dockerfile and railway.toml to compile React and run FastAPI with Uvicorn on the assigned PORT. The Procfile is legacy. Live demo: https://openclaw-nexus-production-368d712a.up.railway.app (initial deployment and AI response manually verified by the author). GitHub Actions runs the integration tests on push. See https://github.com/Tomas-Corza/Relate-by-Neo4j-Hackathon/actions.
@@ -90,3 +90,14 @@ The inventory workspace reads unique Product nodes and existing PROMOTES and CON
 
 ## Attribution sensitivity workspace
 Revenue Sources compares the five existing attribution models using actual Relate-derived results. Metric-selectable grouped bars, a linear-baseline revenue heatmap, campaign revenue ranges, arithmetic mean, range/mean, profitability sign counts and revenue-rank ranges show model dependence. Ties share ranks; undefined ratios remain blank. CSV exports contain all model results and sensitivity statistics. The original attribution engine is unchanged; model agreement is not statistical confidence or causal evidence. ChatGPT assisted with this UI, descriptive calculations and tests; no new dependencies or synthetic records were added.
+
+## Inspectable persistent graph and network explorer
+Business Connections includes a selectable one- or two-hop neighborhood of the actual Relate graph, typed nodes, directed edges, properties, pan/zoom, filters and exact fixed queries. Layout is computed in the browser from queried nodes/edges, not inferred causal relationships. Download the synthetic .rl store from the same page or generate locally:
+
+```bash
+python store.py create nexus-demo.rl
+python store.py inspect nexus-demo.rl
+python store.py export nexus-demo.rl > nexus-graph.json
+```
+
+Creation refuses existing files; use a new filename to reseed. Inspect/export open read-only. The download creates an isolated temporary .rl file, closes it and returns its bytes; the public app still uses isolated in-memory graphs and does not accept user paths or uploads. Format is Relate 1.2.0, see https://relatedb.ai/docs/reference/api/python/. ChatGPT assisted with implementation, tests and documentation.
