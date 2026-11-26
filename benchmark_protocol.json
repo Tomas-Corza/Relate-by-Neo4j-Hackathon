@@ -1,0 +1,48 @@
+{
+  "version": "1.0",
+  "attribution_model": "linear",
+  "arms": {
+    "A": "Campaign metrics only",
+    "B": "Context-rich flat records and computed analytical summaries",
+    "N": "Actual Nexus executed tool trace"
+  },
+  "weights": {
+    "factual_accuracy": 30,
+    "relationship_identification": 25,
+    "evidence_completeness": 20,
+    "recommendation_quality": 15,
+    "unsupported_claims_avoidance": 10
+  },
+  "cases": [
+    {
+      "id": "Q1",
+      "question": "Which campaign has the greatest combined low-stock and negative-profit risk under linear attribution? Identify the promoted product, stock, campaign spend and profit after ads. Recommend a controlled next step.",
+      "expected": "C2 Meta Ads promotes P2 Limited edition; 3 units; $1800 spend; -$301.67 attributed profit after ads. Review replenishment and test before scaling."
+    },
+    {
+      "id": "Q2",
+      "question": "Which product is promoted by multiple campaigns? Name the product and campaign IDs, and explain how its inventory should be counted.",
+      "expected": "P1 Everyday kit; C1 Google Ads and C4 Organic; 120 units counted once, not 240."
+    },
+    {
+      "id": "Q3",
+      "question": "Investigate customer U001 journey and purchases. Identify the campaign IDs in the recorded touch sequence, purchased product, and whether a promoted product differs from the purchase. Do not infer causality.",
+      "expected": "Verify against fixed U001 journey and customer_orders queries: C1, C3, C1, C1 in sequence; Everyday kit purchased; C3 promotes Refill pack, different from purchased product."
+    },
+    {
+      "id": "Q4",
+      "question": "Show recorded financial performance: revenue, COGS, gross profit, campaign spend and profit after ads. Explain whether these totals change with attribution.",
+      "expected": "$6970 revenue; $2770 COGS; $4200 gross profit; $3150 spend; $1050 profit after ads; recorded totals invariant to model; not net income."
+    },
+    {
+      "id": "Q5",
+      "question": "Is campaign profitability consistent across attribution models? Identify positive and negative model counts for each campaign, and explain the limitations.",
+      "expected": "Use five-model sensitivity reference generated before model calls; verify each campaign positive/negative/break-even counts. Agreement is not causal evidence."
+    },
+    {
+      "id": "Q6",
+      "question": "Simulate a budget reallocation: select the weakest paid campaign by attributed gross profit per spend and strongest alternative with at least 10 units of stock, transfer up to $300 at 50% assumed marginal efficiency. State modeled profit change and caveats.",
+      "expected": "Use fixed scenario rule and independent reference calculations recorded before model calls; preserve total spend, no executed changes or forecast."
+    }
+  ]
+}
