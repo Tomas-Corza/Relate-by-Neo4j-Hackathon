@@ -113,3 +113,6 @@ The workspace defaults to business insights (low-stock campaign exposure and sha
 
 ## Business map
 Business Connections now starts with a clickable aggregate map of actual stored entity counts and relationship types, then offers four business-oriented questions and four additional record queries. Only the selected question is shown. Product performance combines observed sales, unique product stock and associated campaign spend without attributing sales to campaigns. The full graph explorer remains optional, and readable business records are separate from collapsed developer query audits. No synthetic records, formulas or backend APIs were changed. ChatGPT assisted with the interface refinement.
+
+## Guided demo
+Start the optional six-step walkthrough on Overview to follow the existing synthetic inventory-risk case through Business Connections, Revenue Sources, AI Assistant, Budget Planning and Reports. The guide links existing workspaces and offers manual next/previous/exit controls; it does not automatically call AI, change budgets or export data. Starting resets attribution to linear. The $300 transfer at 50% efficiency is illustrative, not a forecast. All workspaces remain accessible independently. ChatGPT assisted with this usability feature.
