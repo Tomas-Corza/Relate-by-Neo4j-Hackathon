@@ -107,3 +107,6 @@ The React AI Assistant now executes a deterministic, keyword-routed investigatio
 
 ## Connected intelligence benchmark
 See [BENCHMARK.md](BENCHMARK.md) for the predefined three-arm, six-question local evaluation protocol, dry-run preparation, opt-in provider execution and human scoring. No live results yet. ChatGPT assisted with the protocol, runner, tests and UI. This measures context delivery and answer grounding, not intrinsic graph superiority.
+
+## Business Connections navigation
+The workspace defaults to business insights (low-stock campaign exposure and shared product relationships), with separate Graph explorer and Purchase paths views. Contextual graph buttons focus actual connected IDs. The graph starts with touchpoints hidden for clarity, uses compact columns and readable property labels; advanced filters and exact queries remain accessible. All six original evidence queries, purchase paths, and persistent store download remain available. No graph records or analytical formulas changed. ChatGPT assisted with this usability refinement.
