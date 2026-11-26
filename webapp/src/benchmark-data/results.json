@@ -1,0 +1,35 @@
+{
+  "A": {
+    "n": 6,
+    "criteria_pct": {
+      "factual_accuracy": 33.33,
+      "relationship_identification": 25.0,
+      "evidence_completeness": 33.33,
+      "recommendation_quality": 58.33,
+      "unsupported_claims_avoidance": 66.67
+    },
+    "weighted_score": 38.33
+  },
+  "B": {
+    "n": 6,
+    "criteria_pct": {
+      "factual_accuracy": 83.33,
+      "relationship_identification": 100.0,
+      "evidence_completeness": 91.67,
+      "recommendation_quality": 83.33,
+      "unsupported_claims_avoidance": 83.33
+    },
+    "weighted_score": 89.17
+  },
+  "N": {
+    "n": 6,
+    "criteria_pct": {
+      "factual_accuracy": 83.33,
+      "relationship_identification": 91.67,
+      "evidence_completeness": 100.0,
+      "recommendation_quality": 66.67,
+      "unsupported_claims_avoidance": 75.0
+    },
+    "weighted_score": 85.42
+  }
+}

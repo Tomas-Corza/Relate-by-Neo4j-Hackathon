@@ -1,0 +1,9 @@
+{
+  "status": "complete",
+  "model": "gpt-4.1-mini",
+  "attempt_limit": 18,
+  "protocol_sha256": "31959d5ce9fff8e4684bda8410fe90b587f62926f59c75b54c67155e4feb1abf",
+  "seed": 42,
+  "max_completion_tokens": 500,
+  "note": "Single trial per arm/question; no causal or statistical significance claim."
+}

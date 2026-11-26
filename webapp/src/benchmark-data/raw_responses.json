@@ -1,0 +1,200 @@
+[
+  {
+    "response_id": "R01",
+    "question_id": "Q5",
+    "arm": "B",
+    "status": "ok",
+    "response": "Campaign profitability is not consistent across attribution models as per the attribution_sensitivity data:\n\n- Campaign \"Search acquisition\" (C1, Google Ads) has 5 profitable models and 0 loss models (profitable_models=5, loss_models=0), with profit ranging from 200 to 480 and revenue range about 13.98% of mean revenue (record ID: attribution_sensitivity for C1).\n\n- Campaign \"Social discovery\" (C2, Meta Ads) has 0 profitable models and 5 loss models (profitable_models=0, loss_models=5), with profit always negative (min_profit=-500 to max_profit=-293.14) (record ID: attribution_sensitivity for C2).\n\n- Campaign \"Retention email\" (C3, Email) has 5 profitable models and 0 loss models (profitable_models=5, loss_models=0), but a wide revenue range at 42.16% of the mean indicating variability across models (record ID: attribution_sensitivity for C3).\n\n- Campaign \"Organic discovery\" (C4, Organic) has 5 profitable models and 0 loss models (profitable_models=5, loss_models=0) with stable profitability (record ID: attribution_sensitivity for C4).\n\nLimitations:\n- Attribution models influence revenue and profit estimates substantially, with fluctuations in revenue and profit ranges observed per campaign across models (record ID: attribution_sensitivity).\n- The specific counts of profitable and loss models per campaign highlight model sensitivity and lack of uniformity.\n- Break-even models count is zero for all campaigns, indicating binary profit-or-loss classification without neutral cases.\n- These variations mean profit conclusions depend heavily on chosen attribution model, which limits certainty in consistent profitability conclusions.\n\nSummary of positive and negative model counts per campaign:\n- Search acquisition (C1): 5 positive, 0 negative\n- Social discovery (C2): 0 positive, 5 negative\n- Retention email (C3): 5 positive, 0 negative\n- Organic discovery (C4): 5 positive, 0 negative\n\nThis shows campaign profitability varies by attribution model, with Social discovery consistently unprofitable under all tested models, and others always profitable but with varying magnitudes and ranking differences across models (record ID: attribution_sensitivity). \n\nHence, campaign profitability is not fully consistent across attribution models, impacted by model assumptions and sensitivity (record ID: attribution_sensitivity).",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 48060,
+    "output_tokens": 493,
+    "elapsed_seconds": 9.051
+  },
+  {
+    "response_id": "R02",
+    "question_id": "Q5",
+    "arm": "A",
+    "status": "ok",
+    "response": "Facts:\n- Campaign profitability after ads (profit_after_ads) varies across campaigns: C1 (331.68), C2 (-301.67), C3 (384.99), C4 (634.99) indicating inconsistency.\n- Positive profit models campaigns are C1, C3, C4; negative profit model campaign is C2.\n- ROAS also varies, with C2 having the lowest (1.39) and C3 the highest (5.72) except for Organic (C4) with no ROAS.\n\nAssumptions:\n- Attribution models here correspond to the campaigns listed; positive or negative profit indicates model-level profitability.\n- Organic discovery (C4) lacks ad spend, so ROAS isn't calculated.\n\nLimitations:\n- No multiple attribution models per campaign are provided; only single profit figures, so cross-model consistency can't be determined.\n- Lack of direct data comparing different attribution models within each campaign.\n- Profit after ads depends on spend and revenue but may exclude other costs.\n- ROAS null for organic channel limits comparison.\n\nRecommendation:\n- To assess campaign profitability consistency across attribution models, obtain and compare profit metrics from multiple attribution models per campaign.\n- Consider additional costs and cross-channel impacts beyond single-channel profit_after_ads.",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 357,
+    "output_tokens": 253,
+    "elapsed_seconds": 2.905
+  },
+  {
+    "response_id": "R03",
+    "question_id": "Q2",
+    "arm": "B",
+    "status": "ok",
+    "response": "The product promoted by multiple campaigns is the \"Everyday kit\" (Product ID: P1). It is promoted by campaigns with IDs C1 (\"Search acquisition\") and C4 (\"Organic discovery\") (evidence: graph_traversal and inventory_analysis products with campaign_ids).\n\nRegarding how its inventory should be counted according to the inventory analysis:\n- The reported stock for \"Everyday kit\" is 120 units.\n- Since it is promoted by two campaigns (C1 and C4), the inventory for the product is counted once overall, not duplicated for each campaign.\n- The total units in inventory analysis aggregate all stocks of listed products without duplication.\n- Hence, the inventory for \"Everyday kit\" should be counted once as 120 units, reflecting the total available stock shared across the campaigns promoting it (evidence: inventory_analysis -> products, total_units, and campaign_ids fields).\n\nSummary:\n- Product: Everyday kit (P1)\n- Campaigns: C1, C4\n- Inventory counting: Stock of 120 units counted once, shared across the multiple campaigns promoting the product.\n\nReferences: inventory_analysis.products for stock and campaign_ids, graph_traversal for campaign-to-product links.",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 47548,
+    "output_tokens": 242,
+    "elapsed_seconds": 4.123
+  },
+  {
+    "response_id": "R04",
+    "question_id": "Q4",
+    "arm": "A",
+    "status": "ok",
+    "response": "Facts from evidence:\n- Total recorded revenue: 2576.27 + 2506.25 + 858.74 + 1028.74 = 6969.99\n- Total recorded spend (campaign spend): 1200 + 1800 + 150 + 0 = 3150\n- Gross profit totals: 1531.68 + 1498.33 + 534.99 + 634.99 = 4199.99\n- Total profit after ads: 331.68 + (-301.67) + 384.99 + 634.99 = 1049.99\n- COGS can be inferred as revenue minus gross profit for each:  \n  For all campaigns combined:  \n  COGS = Total revenue - Total gross profit = 6969.99 - 4199.99 = 2770\n\nRegarding changes with attribution:\n- Evidence does not provide alternate totals with changed attribution.\n- No indication of whether these totals vary with different attribution models.\n\nAssumptions:\n- Spend corresponds to campaign expenditure.\n- Profit after ads equals gross profit minus campaign spend.\n\nRecommendations:\n- To analyze impact of attribution on totals, comparative data with alternative attribution is needed.\n- Consider tracking changes in revenue, COGS, gross profit, campaign spend, and profit after ads under varied attribution models.\n\nSummary:\nRecorded totals are:  \n- Revenue: 6969.99  \n- Spend: 3150  \n- COGS: ~2770  \n- Gross profit: 4199.99  \n- Profit after ads: 1049.99  \nNo evidence shows changes with attribution methods.",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 363,
+    "output_tokens": 338,
+    "elapsed_seconds": 2.908
+  },
+  {
+    "response_id": "R05",
+    "question_id": "Q2",
+    "arm": "N",
+    "status": "ok",
+    "response": "The product promoted by multiple campaigns is the \"Everyday kit.\" It is promoted by campaign IDs C1 (\"Search acquisition\") and C4 (\"Organic discovery\") as shown in evidence E1, E2, and E3.\n\nRegarding inventory counting for this product:\n- The stock for \"Everyday kit\" is 120 units (E1 and E2).\n- Since the same stock units are associated with both campaigns C1 and C4, the inventory should not be double-counted; rather, the stock of 120 units represents the total inventory available for the \"Everyday kit\" product across both campaigns (E2).\n- Therefore, inventory for \"Everyday kit\" should be counted once in total, attributed to both campaigns promoting it, to avoid inflating stock counts (E2).\n\nSummary:\n- Product: Everyday kit\n- Campaign IDs: C1, C4\n- Inventory stock to count: 120 units total (shared between campaigns, not additive)",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 1828,
+    "output_tokens": 197,
+    "elapsed_seconds": 2.833
+  },
+  {
+    "response_id": "R06",
+    "question_id": "Q3",
+    "arm": "B",
+    "status": "ok",
+    "response": "Customer U001 journey and purchases:\n\n- Touch sequence campaign IDs: C1 (Search acquisition) at T001-1, C3 (Retention email) at T001-2, C1 (Search acquisition) at T001-3, and C1 (Search acquisition) at T001-4 (Record: customer_journey.touchpoints).\n\n- Purchased product: \"Everyday kit\" in order O001-1 on 2026-11-08 (Record: customer_journey.orders).\n\n- Promoted product(s) across touchpoints:\n  - T001-1, T001-3, T001-4 promoted \"Everyday kit\"\n  - T001-2 promoted \"Refill pack\" (Record: customer_journey.touchpoints)\n\n- Promoted product differs from purchase at touchpoint T001-2 where \"Refill pack\" was promoted but the purchase was \"Everyday kit\".\n\nSummary:\n- Campaign IDs in touch sequence: C1, C3, C1, C1\n- Purchased product: Everyday kit\n- Yes, promoted product differs at one touchpoint (T001-2 promoted Refill pack, purchase was Everyday kit)\n\nNo inference of causality is made (facts only).",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 48857,
+    "output_tokens": 249,
+    "elapsed_seconds": 5.443
+  },
+  {
+    "response_id": "R07",
+    "question_id": "Q6",
+    "arm": "B",
+    "status": "ok",
+    "response": "The weakest paid campaign by attributed gross profit per spend is \"Social discovery\" (C2) with:  \n- Spend: $1800  \n- Gross profit: $1498.33  \n- Profit after ads: -$301.67 (loss)  \n- Stock is low (3 units) [records/source C2 information]\n\nThe strongest alternative campaign with at least 10 units of stock is \"Retention email\" (C3):  \n- Spend: $150  \n- Gross profit: $534.99  \n- Profit after ads: $384.99  \n- Stock: 85 (sufficient stock)  \n\nBudget reallocation simulation transfers $300 from C2 to C3 at 50% assumed marginal efficiency. Resulting modeled scenarios show:  \n- C2 spend reduces from $1800 to $1500, profit improves from -$301.67 to -$251.39  \n- C3 spend increases from $150 to $450, profit increases from $384.99 to $619.98  \n- Overall modeled profit delta: +$285.27  \n\nCaveats:  \n- Assumes linear model for budget sensitivity.  \n- Assumes 50% marginal efficiency in transferred spend.  \n- Campaign C2's product stock is critically low (3 units), constraining scale.  \n- Real-world effects may vary; modeling does not guarantee equivalent actual performance.  \n\nSource: Budget simulation records for campaigns C2 and C3, campaign analysis and inventory analysis data (campaigns: C2, C3; products: P2, P3) [budget_simulation records in evidence].",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 48889,
+    "output_tokens": 328,
+    "elapsed_seconds": 3.692
+  },
+  {
+    "response_id": "R08",
+    "question_id": "Q3",
+    "arm": "A",
+    "status": "ok",
+    "response": "Evidence provided lists campaigns C1 to C4 with details but does not specify customer U001's journey, touch sequence, purchased product, or promoted product. Therefore, there is insufficient evidence to identify campaign IDs in U001's recorded touch sequence, the product purchased by U001, or whether the promoted product differs from the purchased product.",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 372,
+    "output_tokens": 67,
+    "elapsed_seconds": 0.907
+  },
+  {
+    "response_id": "R09",
+    "question_id": "Q4",
+    "arm": "B",
+    "status": "ok",
+    "response": "Recorded financial performance (all values in currency units):\n\n- Total Revenue: 6970  \n- Total Cost of Goods Sold (COGS): 2770  \n- Gross Profit (Revenue - COGS): 4200  \n- Total Campaign Spend (Ads Spend): 3150  \n- Profit After Ads (Gross Profit - Spend): 1050  \n\nBy product:  \n- Everyday kit: Orders 32, Revenue 3040, COGS 1120, Gross Profit 1920, Gross Margin 63.16%  \n- Limited edition: Orders 17, Revenue 2550, COGS 1190, Gross Profit 1360, Gross Margin 53.33%  \n- Refill pack: Orders 23, Revenue 1380, COGS 460, Gross Profit 920, Gross Margin 66.67%  \n\nBy campaign:  \n- C1: Search acquisition (Google Ads)  \n  Spend: 1200, Revenue: 2576.27, Gross Profit: 1531.68, Profit After Ads: 331.68, ROAS: 2.15  \n- C2: Social discovery (Meta Ads)  \n  Spend: 1800, Revenue: 2506.25, Gross Profit: 1498.33, Profit After Ads: -301.67 (loss), ROAS: 1.39  \n- C3: Retention email (Email)  \n  Spend: 150, Revenue: 858.74, Gross Profit: 534.99, Profit After Ads: 384.99, ROAS: 5.72  \n- C4: Organic discovery (Organic, no spend)  \n  Spend: 0, Revenue: 1028.74, Gross Profit: 634.99, Profit After Ads: 634.99  \n\nRegarding attribution and whether totals change with it:  \n- Attribution sensitivity analysis shows that revenue and profit figures per campaign vary depending on attribution model used (first touch, last touch, linear, etc.). For example, the revenue for C1 ranges from 2410 to 2770 (±~14% around mean 2574.68), and profit varies between 200 and 480. Similarly, for other campaigns revenue and profit ranges exist depending on the model.  \n- Overall reported totals (sum across all campaigns) correspond to revenue of 6970, COGS 2770,",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 48867,
+    "output_tokens": 500,
+    "elapsed_seconds": 8.145
+  },
+  {
+    "response_id": "R10",
+    "question_id": "Q6",
+    "arm": "A",
+    "status": "ok",
+    "response": "Facts:\n- Attributed gross profit per spend (ROI) calculation:  \n  C1: 1531.68 / 1200 = 1.276  \n  C2: 1498.33 / 1800 = 0.832 (weakest)  \n  C3: 534.99 / 150 = 3.566 (strongest among paid, since C4 has zero spend)  \n- Campaigns with at least 10 units stock assumed (insufficient data to confirm stock, assumption needed)  \n- Transfer amount: up to $300 at 50% marginal efficiency  \n- Marginal efficiency implies half the previous ROI for the transferred spend\n\nAssumptions:\n- C4 is organic with zero spend, so no reallocation from it or to it\n- Both C2 and C3 have at least 10 units stock available for reallocation\n- Marginal efficiency means new profit per dollar spent = 50% of original ROI from the campaign receiving budget\n\nSimulation:\n- Transfer $300 from C2 (weakest paid at ROI 0.832) to C3 (strongest paid at ROI 3.566)\n- Loss in gross profit from reducing C2 spend by $300: 300 * 0.832 = 249.6\n- Gain in gross profit from adding $300 to C3 at 50% efficiency: 300 * 3.566 * 0.5 = 534.9\n- Net modeled profit change: 534.9 - 249.6 = +285.3 gross profit increase\n\nCaveats:\n- Stock availability is assumed, no stock data provided\n- Marginal efficiency set at 50% is an assumption, real marginal returns may vary\n- Effects on profit after ads and ROAS post-transfer are not modeled\n- Model does not account for potential nonlinear effects or market saturation\n\nRecommendation:\n- Reallocate $300 ad spend from \"Social discovery\" (Meta Ads) to \"Retention email\" (Email) campaign  \n- Monitor actual returns and stock levels closely to validate assumptions",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 385,
+    "output_tokens": 426,
+    "elapsed_seconds": 3.592
+  },
+  {
+    "response_id": "R11",
+    "question_id": "Q1",
+    "arm": "B",
+    "status": "ok",
+    "response": "The campaign with the greatest combined risk of low stock and negative profit under linear attribution is \"Social discovery\" (Campaign ID: C2). This campaign promotes the \"Limited edition\" product, which has a very low stock of 3 units. It has the highest campaign spend of 1800 and reports a negative profit after ads of -301.67 (record IDs: campaigns and campaign_analysis).\n\nDetails for Social discovery (C2):\n- Promoted product: Limited edition\n- Stock: 3 units (low stock)\n- Campaign spend: 1800\n- Profit after ads: -301.67\n\nRecommendation:\nDue to the low stock and negative profit, a controlled next step would be to either reduce spend on the \"Social discovery\" campaign to minimize losses or to temporarily pause this campaign until stock levels are replenished. Meanwhile, reallocating some budget from this campaign to more profitable campaigns (e.g., \"Retention email\" C3 promoting \"Refill pack\" with positive profit and available stock) could improve overall performance and reduce risk (budget_simulation shows reducing C2 spend improves profit somewhat).\n\nSummary: The \"Social discovery\" campaign (C2) poses the greatest combined low-stock and negative-profit risk. The product is \"Limited edition\" with stock of 3, spend 1800, profit after ads -301.67. Recommended a controlled spend reduction or pause on C2 until stock is replenished, potentially shifting budget to more profitable campaigns (record IDs: campaigns, campaign_analysis, budget_simulation).",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 48874,
+    "output_tokens": 309,
+    "elapsed_seconds": 4.389
+  },
+  {
+    "response_id": "R12",
+    "question_id": "Q4",
+    "arm": "N",
+    "status": "ok",
+    "response": "Recorded financial performance totals from evidence E5 and E1 are:\n\n- Revenue: 6970 (E5 total); per campaign revenues sum to approx 6969 (2576.27 + 2506.25 + 858.74 + 1028.74 = 6969.99) (E1)\n- COGS (Cost of Goods Sold): 2770 (E5 total)\n- Gross profit: 4200 (E5 total); sum of campaign gross profits approx 4200 (1531.68 + 1498.33 + 534.99 + 634.99 = 4200) (E1)\n- Campaign spend: 3150 total (E5 total; also sum campaign spends 1200 + 1800 + 150 + 0 = 3150 in E1)\n- Profit after ads: 1050 total (E5); campaign profits after ads sum to 1050 (331.68 - 301.67 + 384.99 + 634.99 = 1050) (E1)\n\nRegarding changing totals with attribution:\n\n- Revenue and profit values per campaign vary slightly depending on attribution model used, as shown in E4. For example, Search acquisition (C1) mean revenue is 2574.68 and varies +/- approx 14% with attribution model; Social discovery (C2) mean revenue 2420.19 likewise varies ~13%. Other campaigns show variation too.\n- Profit ranges per model show some campaigns always profitable (C1, C3, C4), others always loss-making (C2) across models (E4).\n- The linear attribution model values (used in E1) are central reference points; deviations under first-touch, last-touch and others exist (E4).\n- Thus, totals like revenue and profits per campaign and in aggregate can shift within certain ranges depending on attribution model (E4), but overall total revenue and profit statements in E5 are stable summary figures. Campaign-level credit percentages differ by model (E1, E4).\n\nIn summary:\n- Financial totals are revenue 6970, COGS 2770, gross profit 4200, campaign spend 3150, profit after ads 1050.\n- Attribution modeling causes some variation in assigned revenues and profits per campaign within circa +/- 14% range.\n- Campaign-level profitability status is consistent across models for some campaigns.\n- Overall total financial figures are",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 3700,
+    "output_tokens": 500,
+    "elapsed_seconds": 3.624
+  },
+  {
+    "response_id": "R13",
+    "question_id": "Q1",
+    "arm": "N",
+    "status": "ok",
+    "response": "The campaign with the greatest combined low-stock and negative-profit risk under linear attribution is \"Social discovery\" (Campaign ID C2). \n\n- Promoted product: Limited edition  \n- Stock: 3 units (identified as low stock in E2)  \n- Campaign spend: $1800 (E1)  \n- Profit after ads: -$301.67 (negative, E1)\n\nThis campaign is also confirmed as loss-making across all attribution models and has a low stock status (E1, E2, E4).\n\nRecommendation: A controlled next step is to reduce the \"Social discovery\" campaign spend from $1800 to $1500, reallocating the $300 spend to the more profitable \"Retention email\" campaign (C3). This scenario shows an improved profit after ads from -$301.67 to -$251.39 for C2 and increased profit for C3, leading to a positive profit delta overall (E6). This reallocation manages risk from low stock and negative profit while leveraging campaigns with better margins.\n\nSummary:  \n- Campaign: Social discovery (C2)  \n- Product: Limited edition  \n- Stock: 3 units (low stock)  \n- Spend: $1800  \n- Profit after ads: -$301.67  \n- Next step: Reduce spend on C2 by $300 and increase spend on C3 by same amount to improve overall profitability and mitigate risk (E1, E2, E4, E6).\n\nNo other campaign shares both low stock and negative profit risk simultaneously with this magnitude.",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 3707,
+    "output_tokens": 315,
+    "elapsed_seconds": 3.274
+  },
+  {
+    "response_id": "R14",
+    "question_id": "Q5",
+    "arm": "N",
+    "status": "ok",
+    "response": "Campaign profitability varies across attribution models, with differences in positive and negative model counts observed per campaign:\n\n- Campaign C1 (\"Search acquisition\", Google Ads) had 5 profitable attribution models and 0 loss models, indicating consistent profitability across models (E2).\n- Campaign C2 (\"Social discovery\", Meta Ads) had 0 profitable and 5 loss models, showing consistent lack of profitability under different models (E2).\n- Campaign C3 (\"Retention email\", Email) had 5 profitable and 0 loss models, similarly consistent profitability across models (E2).\n- Campaign C4 (\"Organic discovery\", Organic) had 5 profitable and 0 loss models, also consistently profitable (E2).\n\nRevenue and profit figures vary moderately across models as well, with revenue ranges around 13-42% of mean revenue depending on campaign (E2). This illustrates that while direction of profitability (profitable or loss) is generally consistent, magnitude can differ.\n\nLimitations include:\n- Attribution model sensitivity affects revenue and profit estimates, so absolute profitability amounts vary.\n- \"Organic discovery\" has zero ad spend, complicating ROAS interpretation.\n- Metrics like ROAS are null or not comparable for organic.\n- Sample size and stock constraints (e.g., very low stock for limited edition) may impact robustness of attribution comparisons (E1, E2).\n- The analysis assumes linear as baseline, but other models introduce deltas that impact rank and profit (E2).\n\nIn summary, profitability direction is mostly consistent per campaign across attribution models, with some variation in magnitude. Five models were tested per campaign; positive and negative counts per campaign are noted above (E2). Interpretation should consider attribution model sensitivity and data limitations.",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 2451,
+    "output_tokens": 343,
+    "elapsed_seconds": 2.912
+  },
+  {
+    "response_id": "R15",
+    "question_id": "Q6",
+    "arm": "N",
+    "status": "ok",
+    "response": "Fact:  \n- The weakest paid campaign by attributed gross profit per spend is \"Social discovery\" (C2) with spend $1800, gross profit $1498.33, and negative profit after ads (-301.67). Its product \"Limited edition\" stock is only 3 units, below the 10 units threshold.  \n- The strongest alternative campaigns with at least 10 units of stock are:  \n  - \"Search acquisition\" (C1), stock 120, profit after ads $331.68  \n  - \"Retention email\" (C3), stock 85, profit after ads $384.99  \n  - \"Organic discovery\" (C4), stock 120, profit after ads $634.99 (no ad spend)  \n- Based on evidence E6, $300 budget was reallocated from C2 to C3, assuming 50% marginal efficiency.  \n- This shift reduced C2's spend from $1800 to $1500, increasing its profit from -301.67 to -251.39 (+$50.28).  \n- C3's spend increased from $150 to $450, increasing profit from $384.99 to $619.98 (+$234.99).  \n- The modeled total profit delta from reallocation is +$285.27 (E6).  \n\nAssumptions:  \n- Marginal efficiency of 50% means the additional $300 generates half the profit per dollar compared to current returns.  \n- Linear attribution model is used, ignoring other nonlinear effects or channel interactions.  \n- Stock levels are sufficient to support increased sales with reallocated spend for C3 product (\"Refill pack\").  \n- No negative impact on other campaigns or product sales due to shift.  \n\nRecommendation:  \n- Reallocate up to $300 ad spend from the weakest campaign with low stock (C2: Social discovery) to the strongest campaign with sufficient stock (C3: Retention email) can increase modeled overall profit by about $285.  \n- Monitor actual sales and stock consumption as model is sensitive to efficiency assumptions and observed stock levels.  \n- Further optimizations could consider capacity constraints and cross-channel effects.  \n\nCaveats:  \n- The simulation assumes constant marginal efficiencies at 50%; real efficiencies may differ.  \n- Limited stock (3 units) restricts spend efficiency on C2, but other campaigns' stock might become limiting at higher spend.  \n- Results depend on the linear attribution model",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 3722,
+    "output_tokens": 500,
+    "elapsed_seconds": 5.516
+  },
+  {
+    "response_id": "R16",
+    "question_id": "Q3",
+    "arm": "N",
+    "status": "ok",
+    "response": "Customer U001 journey and purchases details based on the supplied evidence:\n\n1. Campaign IDs in the recorded touch sequence for customer U001:\n   - C1 (Search acquisition)\n   - C3 (Retention email)\n   - C1 (Search acquisition) repeated twice  \n   All touchpoints promoted products as per campaigns:  \n   - T001-1: Campaign C1 promoting \"Everyday kit\"  \n   - T001-2: Campaign C3 promoting \"Refill pack\"  \n   - T001-3: Campaign C1 promoting \"Everyday kit\"  \n   - T001-4: Campaign C1 promoting \"Everyday kit\"  \n   (Evidence E4)\n\n2. Purchased product by customer U001:\n   - Product: \"Everyday kit\"  \n   - Order ID: O001-1, converted on 2026-11-08, revenue 95 (Evidence E4)\n\n3. Comparison of promoted product vs purchased product for U001:\n   - Promoted products in touchpoints: \"Everyday kit\" (C1 campaigns) and \"Refill pack\" (C3 campaign)  \n   - Purchased product: \"Everyday kit\"  \n   Hence, the purchased product is the same as the majority promoted product \"Everyday kit\" but differs from the promoted \"Refill pack\" seen in one touchpoint.  \n   (Evidence E4 and E3 confirm campaign-to-product promotions)\n\nSummary: Customer U001 had four touchpoints linked to campaigns C1 and C3; campaigns promoted \"Everyday kit\" and \"Refill pack\" respectively. Customer purchased \"Everyday kit,\" matching the main promoted product but differing from one promoted \"Refill pack\" touchpoint. No causality implied.",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 3636,
+    "output_tokens": 354,
+    "elapsed_seconds": 4.166
+  },
+  {
+    "response_id": "R17",
+    "question_id": "Q1",
+    "arm": "A",
+    "status": "ok",
+    "response": "The campaign with the greatest combined low-stock and negative-profit risk under linear attribution is the \"Social discovery\" campaign (C2) using Meta Ads, as it has a negative profit after ads of -301.67 (evidence: C2).\n\nPromoted product details are not explicitly provided in the evidence.\n\nCampaign spend: $1800  \nProfit after ads: -$301.67 (negative)\n\nRecommendation: Given the negative profit after ads and higher spend, a controlled next step would be to pause or reduce the spend on the \"Social discovery\" campaign to mitigate losses, while investigating inventory levels to address low-stock risk. Additional data on stock levels and product details would help refine this decision.",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 370,
+    "output_tokens": 140,
+    "elapsed_seconds": 1.435
+  },
+  {
+    "response_id": "R18",
+    "question_id": "Q2",
+    "arm": "A",
+    "status": "ok",
+    "response": "The evidence does not specify any product names or clarify which products are promoted by the campaigns C1, C2, C3, and C4. Therefore, the product promoted by multiple campaigns and the associated campaign IDs cannot be identified from the given data.\n\nAdditionally, there is no information about the inventory or how inventory should be counted related to these campaigns or products.\n\nConclusion: Evidence is insufficient to name the product promoted by multiple campaigns, list campaign IDs for that product, or explain inventory counting.",
+    "resolved_model": "gpt-4.1-mini-2025-04-14",
+    "input_tokens": 358,
+    "output_tokens": 99,
+    "elapsed_seconds": 1.122
+  }
+]
