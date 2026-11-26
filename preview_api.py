@@ -5,6 +5,7 @@ from datetime import date
 from reporting import report
 from network import network
 from store import create_store
+from dataset_export import canonical_zip
 from tempfile import TemporaryDirectory
 from fastapi.responses import Response
 from finance import financial_summary
@@ -53,6 +54,10 @@ def demo_store():
         path=Path(directory)/"nexus-demo.rl"
         create_store(path)
         return Response(path.read_bytes(),media_type="application/octet-stream",headers={"Content-Disposition":"attachment; filename=nexus-demo.rl"})
+
+@app.get("/api/demo-csv")
+def demo_csv():
+    return Response(canonical_zip(),media_type="application/zip",headers={"Content-Disposition":"attachment; filename=nexus-original-csv.zip"})
 
 @app.get("/api/audit")
 def audit(model: Model = "linear"):
