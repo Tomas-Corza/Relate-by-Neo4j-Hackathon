@@ -34,3 +34,33 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate production Docker image
         run: docker build -t nexus-release-validation .
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install -r requirements-preview.txt
+      - run: npm install --no-audit --no-fund
+        working-directory: webapp
+      - run: npm run build
+        working-directory: webapp
+      - run: npx playwright install --with-deps chromium
+        working-directory: webapp
+      - run: npm run test:e2e
+        working-directory: webapp
+        env:
+          OPENAI_API_KEY: ''
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-test-report
+          path: |
+            webapp/playwright-report/
+            webapp/test-results/
+          retention-days: 7
