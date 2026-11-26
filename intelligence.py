@@ -70,7 +70,7 @@ def compare_models(db):
     for model in MODELS:
         _,campaigns=analyze(db,model)
         for c in campaigns:
-            result.append({"model":model,"campaign_id":c["campaign_id"],"campaign":c["campaign"],"attributed_revenue":c["revenue"],"profit_after_ads":c["profit_after_ads"]})
+            result.append({"model":model,"campaign_id":c["campaign_id"],"campaign":c["campaign"],"attributed_revenue":c["revenue"],"profit_after_ads":c["profit_after_ads"],"channel":c["channel"],"spend":c["spend"],"roas":c["roas"]})
     return result
 
 def scenario(campaigns, source_id, target_id, transfer, efficiency):
