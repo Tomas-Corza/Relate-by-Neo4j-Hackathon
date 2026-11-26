@@ -1,0 +1,4 @@
+id,name,channel,spend,product_id
+C101,Search lighting,Google Ads,20,P101
+C102,Social lighting,Meta Ads,60,P102
+C103,Organic lighting,Organic,0,P101

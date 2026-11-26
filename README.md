@@ -106,7 +106,7 @@ Creation refuses existing files; use a new filename to reseed. Inspect/export op
 The React AI Assistant now executes a deterministic, keyword-routed investigation with evidence-based selection of an illustrative budget scenario. Seven allowlisted analytical tools cover campaign economics, inventory, PROMOTES graph traversal, customer journeys, five-model sensitivity, recorded finances and budget simulation. Every completed tool returns its actual evidence, fixed Cypher templates and analysis parameters; IDs E1…E7 link findings to the execution trace. No generated Cypher, arbitrary tool calls or write actions. The router is not an autonomous LLM planner. Optional OpenAI synthesis uses one provider attempt per investigation under the existing shared quota, timeout, no-retry and token limits; unavailable synthesis falls back to deterministic findings. The legacy Streamlit analyst remains unchanged. The budget example automatically selects the weakest paid gross-profit/spend campaign and strongest available-stock alternative, with up to $300 and 50% assumed marginal efficiency; not a forecast or executed action. All data remains synthetic. ChatGPT assisted with this implementation, tests and docs.
 
 ## Connected intelligence benchmark
-See [BENCHMARK.md](BENCHMARK.md) for the predefined three-arm, six-question local evaluation protocol, dry-run preparation, opt-in provider execution and human scoring. No live results yet. ChatGPT assisted with the protocol, runner, tests and UI. This measures context delivery and answer grounding, not intrinsic graph superiority.
+See [BENCHMARK.md](BENCHMARK.md) for the predefined three-arm, six-question local evaluation protocol, dry-run preparation, opt-in provider execution and human scoring. Completed provisional results are documented below. ChatGPT assisted with the protocol, runner, tests and UI. This measures context delivery and answer grounding, not intrinsic graph superiority.
 
 ## Business Connections navigation
 The workspace defaults to business insights (low-stock campaign exposure and shared product relationships), with separate Graph explorer and Purchase paths views. Contextual graph buttons focus actual connected IDs. The graph starts with touchpoints hidden for clarity, uses compact columns and readable property labels; advanced filters and exact queries remain accessible. All six original evidence queries, purchase paths, and persistent store download remain available. No graph records or analytical formulas changed. ChatGPT assisted with this usability refinement.
@@ -120,3 +120,15 @@ Start the optional six-step walkthrough on Overview to follow the existing synth
 ### Completed benchmark (provisional AI-assisted evaluation)
 
 The AI assistant page now includes the completed 18-response benchmark. Nexus used 93.46% fewer input tokens than the context-rich flat-data baseline with equal factual accuracy; weighted quality was 85.42% versus 89.17%, respectively. See [methodology, archived responses, scores and limitations](BENCHMARK.md#completed-run--november-25-2026-provisional-ai-assisted-scores). Independent human validation is pending; no general graph superiority or end-to-end latency claim is made.
+
+## Local synthetic CSV import
+
+Nexus can now validate five linked CSV tables and construct a new persistent Relate database with the same schema as the original demo. Try the [second synthetic dataset and schema](examples/synthetic-import/README.md):
+
+```bash
+python dataset_import.py validate examples/synthetic-import
+python dataset_import.py import examples/synthetic-import imported-demo.rl
+python dataset_import.py summary imported-demo.rl --model linear
+```
+
+The summary uses the existing attribution, finance, inventory and customer-economics functions on the imported store. Invalid records or dangling relationships are rejected before any store is published. Existing stores are never overwritten. No AI API calls, public upload endpoint, production configuration changes or dashboard dataset switching. Use fictional data only. ChatGPT assisted with the implementation and tests.
