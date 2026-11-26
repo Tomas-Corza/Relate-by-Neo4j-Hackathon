@@ -116,3 +116,7 @@ Business Connections now starts with a clickable aggregate map of actual stored 
 
 ## Guided demo
 Start the optional six-step walkthrough on Overview to follow the existing synthetic inventory-risk case through Business Connections, Revenue Sources, AI Assistant, Budget Planning and Reports. The guide links existing workspaces and offers manual next/previous/exit controls; it does not automatically call AI, change budgets or export data. Starting resets attribution to linear. The $300 transfer at 50% efficiency is illustrative, not a forecast. All workspaces remain accessible independently. ChatGPT assisted with this usability feature.
+
+### Completed benchmark (provisional AI-assisted evaluation)
+
+The AI assistant page now includes the completed 18-response benchmark. Nexus used 93.46% fewer input tokens than the context-rich flat-data baseline with equal factual accuracy; weighted quality was 85.42% versus 89.17%, respectively. See [methodology, archived responses, scores and limitations](BENCHMARK.md#completed-run--november-25-2026-provisional-ai-assisted-scores). Independent human validation is pending; no general graph superiority or end-to-end latency claim is made.

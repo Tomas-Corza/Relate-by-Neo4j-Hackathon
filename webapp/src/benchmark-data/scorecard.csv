@@ -1,0 +1,19 @@
+response_id,question_id,factual_accuracy,relationship_identification,evidence_completeness,recommendation_quality,unsupported_claims_avoidance,review_notes
+R01,Q5,0.5,1.0,1.0,0.5,0.5,"Correct counts for all campaigns and references; opening and closing imply inconsistent profitability despite invariant signs. Magnitudes vary, but agreement is not causal evidence."
+R02,Q5,0.5,0.0,0.5,0.5,0.5,Correct single-model campaign figures and acknowledges missing cross-model data; conflates campaigns with attribution models and cannot provide required counts. Requests additional data.
+R03,Q2,1.0,1.0,1.0,1.0,1.0,"Correct P1, C1/C4 and shared 120 units counted once; identifies inventory and graph records; clear explanation."
+R04,Q4,0.5,0.5,0.5,0.5,0.5,"Financial figures within one cent, but uses attributed campaign aggregates rather than recorded totals and does not explain invariance. Misstates attributed revenue sum by one cent; reconciliation is otherwise reasonable."
+R05,Q2,1.0,1.0,1.0,1.0,1.0,"Correct Everyday kit, C1/C4 and 120 units counted once; cites evidence and explains shared inventory."
+R06,Q3,1.0,1.0,1.0,1.0,1.0,"Exact C1/C3/C1/C1 sequence, order O001-1 and Refill pack mismatch; references journey and orders; no causal inference."
+R07,Q6,1.0,1.0,1.0,1.0,1.0,"Correct C2 to C3, stocks, spend transfer, 50% efficiency and $285.27 modeled delta; paired spends conserve total; explicitly qualified scenario and cited records."
+R08,Q3,0.0,0.0,0.0,0.5,1.0,"No requested journey facts or links; appropriately acknowledges insufficient evidence rather than inventing a journey, but cannot answer the task."
+R09,Q4,0.5,1.0,0.5,0.5,0.5,All five recorded totals and product/campaign reconciliation correct; response ends mid-sentence without establishing invariance. Approximate plus/minus 14% misinterprets full range relative to mean. References are general rather than precise.
+R10,Q6,0.5,0.5,0.5,0.5,0.5,"Correct paid ranking, transfer and approximate delta, but assumes both campaigns have at least 10 units despite C2 having 3; fails to confirm recipient stock and mislabels gross-profit ratio. Fixed spend means gross-profit delta is also profit-after-ads delta; uncertainty is explicit."
+R11,Q1,1.0,1.0,1.0,1.0,1.0,"Correct C2, product, stock, spend and loss; cited records and controlled pause/reduction pending replenishment. Reallocation suggested conditionally."
+R12,Q4,0.5,0.5,1.0,0.5,0.0,"Correct recorded financial totals and evidence IDs, but incorrectly suggests aggregate financial totals can shift with attribution; range percentages misinterpreted and ending incomplete. Material error on the central invariance question."
+R13,Q1,1.0,1.0,1.0,0.5,1.0,"Correct risk facts, linked product and scenario references; controlled $300 transfer proposed, but lacks explicit replenishment review or monitoring/qualification of marginal return assumptions. Scenario framed as modeled."
+R14,Q5,1.0,1.0,1.0,0.5,1.0,All model counts correct; distinguishes profit direction from magnitude and cites evidence. Limitations discussed but no explicit warning that agreement is not causal evidence.
+R15,Q6,0.5,1.0,1.0,0.5,0.5,"Correct source, target, stock, transfer and $285.27 delta; marginal efficiency described as half profit rather than half gross profit per dollar. Scenario wording sometimes implies a completed transfer, but modeled caveats present; answer ends without final punctuation."
+R16,Q3,1.0,1.0,1.0,1.0,1.0,"Correct ordered touches, order, purchase and mismatch with precise evidence IDs; explicitly avoids causality."
+R17,Q1,0.5,0.5,0.5,1.0,0.5,"Correct campaign, spend and loss; cannot identify product or stock, so combined risk is not established. Controlled reduction and inventory investigation are sensible."
+R18,Q2,0.0,0.0,0.0,0.5,1.0,"No required product, campaign links or stock count; honestly explains evidence limitations without invented facts."

@@ -1,0 +1,335 @@
+{
+  "campaigns": [
+    {
+      "campaign_id": "C1",
+      "campaign": "Search acquisition",
+      "channel": "Google Ads",
+      "spend": 1200,
+      "product": "Everyday kit",
+      "stock": 120,
+      "revenue": 2576.27,
+      "gross_profit": 1531.68,
+      "roas": 2.15,
+      "profit_after_ads": 331.68
+    },
+    {
+      "campaign_id": "C2",
+      "campaign": "Social discovery",
+      "channel": "Meta Ads",
+      "spend": 1800,
+      "product": "Limited edition",
+      "stock": 3,
+      "revenue": 2506.25,
+      "gross_profit": 1498.33,
+      "roas": 1.39,
+      "profit_after_ads": -301.67
+    },
+    {
+      "campaign_id": "C3",
+      "campaign": "Retention email",
+      "channel": "Email",
+      "spend": 150,
+      "product": "Refill pack",
+      "stock": 85,
+      "revenue": 858.74,
+      "gross_profit": 534.99,
+      "roas": 5.72,
+      "profit_after_ads": 384.99
+    },
+    {
+      "campaign_id": "C4",
+      "campaign": "Organic discovery",
+      "channel": "Organic",
+      "spend": 0,
+      "product": "Everyday kit",
+      "stock": 120,
+      "revenue": 1028.74,
+      "gross_profit": 634.99,
+      "roas": null,
+      "profit_after_ads": 634.99
+    }
+  ],
+  "inventory": {
+    "products": [
+      {
+        "product_id": "P1",
+        "product": "Everyday kit",
+        "price": 95,
+        "unit_cost": 35,
+        "stock": 120,
+        "inventory_cost": 4200,
+        "listed_sales_value": 11400,
+        "unit_margin_pct": 63.1578947368421,
+        "observed_units_sold": 32,
+        "observed_revenue": 3040,
+        "observed_gross_profit": 1920,
+        "campaign_spend": 1200,
+        "campaign_ids": [
+          "C1",
+          "C4"
+        ],
+        "status": "Available"
+      },
+      {
+        "product_id": "P2",
+        "product": "Limited edition",
+        "price": 150,
+        "unit_cost": 70,
+        "stock": 3,
+        "inventory_cost": 210,
+        "listed_sales_value": 450,
+        "unit_margin_pct": 53.333333333333336,
+        "observed_units_sold": 17,
+        "observed_revenue": 2550,
+        "observed_gross_profit": 1360,
+        "campaign_spend": 1800,
+        "campaign_ids": [
+          "C2"
+        ],
+        "status": "Low stock"
+      },
+      {
+        "product_id": "P3",
+        "product": "Refill pack",
+        "price": 60,
+        "unit_cost": 20,
+        "stock": 85,
+        "inventory_cost": 1700,
+        "listed_sales_value": 5100,
+        "unit_margin_pct": 66.66666666666667,
+        "observed_units_sold": 23,
+        "observed_revenue": 1380,
+        "observed_gross_profit": 920,
+        "campaign_spend": 150,
+        "campaign_ids": [
+          "C3"
+        ],
+        "status": "Available"
+      }
+    ],
+    "total_units": 208,
+    "inventory_cost": 6110,
+    "listed_sales_value": 16950,
+    "low_stock_products": 1,
+    "exposed_spend": 1800,
+    "total_spend": 3150,
+    "campaign_relationships": 4
+  },
+  "financials": {
+    "revenue": 6970,
+    "cogs": 2770,
+    "gross_profit": 4200,
+    "spend": 3150,
+    "profit_after_ads": 1050,
+    "gross_margin_pct": 60.25824964131994,
+    "margin_after_ads_pct": 15.064562410329986,
+    "products": [
+      {
+        "product": "Everyday kit",
+        "orders": 32,
+        "revenue": 3040,
+        "cogs": 1120,
+        "gross_profit": 1920,
+        "gross_margin_pct": 63.1578947368421
+      },
+      {
+        "product": "Limited edition",
+        "orders": 17,
+        "revenue": 2550,
+        "cogs": 1190,
+        "gross_profit": 1360,
+        "gross_margin_pct": 53.333333333333336
+      },
+      {
+        "product": "Refill pack",
+        "orders": 23,
+        "revenue": 1380,
+        "cogs": 460,
+        "gross_profit": 920,
+        "gross_margin_pct": 66.66666666666667
+      }
+    ]
+  },
+  "U001_journey": [
+    {
+      "touchpoint": "T001-1",
+      "occurred_at": "2026-11-03T00:00:00+00:00",
+      "campaign": "Search acquisition",
+      "promoted_product": "Everyday kit"
+    },
+    {
+      "touchpoint": "T001-2",
+      "occurred_at": "2026-11-04T00:00:00+00:00",
+      "campaign": "Retention email",
+      "promoted_product": "Refill pack"
+    },
+    {
+      "touchpoint": "T001-3",
+      "occurred_at": "2026-11-05T00:00:00+00:00",
+      "campaign": "Search acquisition",
+      "promoted_product": "Everyday kit"
+    },
+    {
+      "touchpoint": "T001-4",
+      "occurred_at": "2026-11-06T00:00:00+00:00",
+      "campaign": "Search acquisition",
+      "promoted_product": "Everyday kit"
+    }
+  ],
+  "U001_orders": [
+    {
+      "order_id": "O001-1",
+      "converted_at": "2026-11-08T00:00:00+00:00",
+      "revenue": 95,
+      "product": "Everyday kit"
+    }
+  ],
+  "sensitivity": [
+    {
+      "campaign_id": "C1",
+      "campaign": "Search acquisition",
+      "channel": "Google Ads",
+      "min_revenue": 2410.0,
+      "max_revenue": 2770.0,
+      "mean_revenue": 2574.68,
+      "revenue_range": 360.0,
+      "range_pct_of_mean": 13.98,
+      "profitable_models": 5,
+      "loss_models": 0,
+      "break_even_models": 0,
+      "min_profit": 200.0,
+      "max_profit": 480.0,
+      "best_rank": 1,
+      "worst_rank": 2,
+      "first_minus_last": 360.0,
+      "model_deltas": {
+        "first_touch": 7.52,
+        "last_touch": -6.45,
+        "linear": 0.0,
+        "position_based": -0.65,
+        "time_decay": -0.72
+      }
+    },
+    {
+      "campaign_id": "C2",
+      "campaign": "Social discovery",
+      "channel": "Meta Ads",
+      "min_revenue": 2205.0,
+      "max_revenue": 2519.2,
+      "mean_revenue": 2420.19,
+      "revenue_range": 314.2,
+      "range_pct_of_mean": 12.98,
+      "profitable_models": 0,
+      "loss_models": 5,
+      "break_even_models": 0,
+      "min_profit": -500.0,
+      "max_profit": -293.14,
+      "best_rank": 1,
+      "worst_rank": 2,
+      "first_minus_last": -245.0,
+      "model_deltas": {
+        "first_touch": -12.02,
+        "last_touch": -2.24,
+        "linear": 0.0,
+        "position_based": -3.42,
+        "time_decay": 0.52
+      }
+    },
+    {
+      "campaign_id": "C3",
+      "campaign": "Retention email",
+      "channel": "Email",
+      "min_revenue": 765.0,
+      "max_revenue": 1150.0,
+      "mean_revenue": 913.21,
+      "revenue_range": 385.0,
+      "range_pct_of_mean": 42.16,
+      "profitable_models": 5,
+      "loss_models": 0,
+      "break_even_models": 0,
+      "min_profit": 310.0,
+      "max_profit": 570.0,
+      "best_rank": 3,
+      "worst_rank": 4,
+      "first_minus_last": -385.0,
+      "model_deltas": {
+        "first_touch": -10.92,
+        "last_touch": 33.92,
+        "linear": 0.0,
+        "position_based": 6.9,
+        "time_decay": 1.82
+      }
+    },
+    {
+      "campaign_id": "C4",
+      "campaign": "Organic discovery",
+      "channel": "Organic",
+      "min_revenue": 960.0,
+      "max_revenue": 1230.0,
+      "mean_revenue": 1061.91,
+      "revenue_range": 270.0,
+      "range_pct_of_mean": 25.43,
+      "profitable_models": 5,
+      "loss_models": 0,
+      "break_even_models": 0,
+      "min_profit": 600.0,
+      "max_profit": 760.0,
+      "best_rank": 3,
+      "worst_rank": 4,
+      "first_minus_last": 270.0,
+      "model_deltas": {
+        "first_touch": 19.56,
+        "last_touch": -6.68,
+        "linear": 0.0,
+        "position_based": 4.21,
+        "time_decay": -0.96
+      }
+    }
+  ],
+  "scenario": {
+    "source": "C2",
+    "target": "C3",
+    "amount": 300,
+    "efficiency": 0.5,
+    "profit_delta": 285.27,
+    "records": [
+      {
+        "campaign_id": "C1",
+        "campaign": "Search acquisition",
+        "baseline_spend": 1200.0,
+        "scenario_spend": 1200.0,
+        "baseline_profit": 331.68,
+        "scenario_profit": 331.68,
+        "stock": 120
+      },
+      {
+        "campaign_id": "C2",
+        "campaign": "Social discovery",
+        "baseline_spend": 1800.0,
+        "scenario_spend": 1500.0,
+        "baseline_profit": -301.67,
+        "scenario_profit": -251.39,
+        "stock": 3
+      },
+      {
+        "campaign_id": "C3",
+        "campaign": "Retention email",
+        "baseline_spend": 150.0,
+        "scenario_spend": 450.0,
+        "baseline_profit": 384.99,
+        "scenario_profit": 619.98,
+        "stock": 85
+      },
+      {
+        "campaign_id": "C4",
+        "campaign": "Organic discovery",
+        "baseline_spend": 0.0,
+        "scenario_spend": 0.0,
+        "baseline_profit": 634.99,
+        "scenario_profit": 634.99,
+        "stock": 120
+      }
+    ],
+    "warnings": []
+  }
+}
