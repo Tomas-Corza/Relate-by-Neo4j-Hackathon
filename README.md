@@ -135,3 +135,19 @@ python dataset_import.py summary imported-demo.rl --model linear
 The summary uses the existing attribution, finance, inventory and customer-economics functions on the imported store. Invalid records or dangling relationships are rejected before any store is published. Existing stores are never overwritten. No AI API calls, public upload endpoint, production configuration changes or dashboard dataset switching. Use fictional data only. ChatGPT assisted with the implementation and tests.
 
 The canonical export is generated directly from the existing Relate graph. Automated round-trip tests compare all stored nodes and relationships, five attribution models, recorded financials, inventory and selected customer journeys. The alternate small dataset remains an internal validation fixture only. No public uploads or dataset switching.
+
+## Browser end-to-end validation
+
+The React release workflow now includes Playwright Chromium tests against the built frontend and actual local FastAPI/Relate backend. Tests cover the ten workspaces, attribution switching, guided navigation, canonical ZIP and persistent store downloads, fixed-budget simulation, custom report exports, deterministic investigation, benchmark rendering and narrow-screen navigation. No external AI requests: the test server explicitly clears OPENAI_API_KEY. Existing backend and Docker checks remain in place.
+
+Run locally after installing Python dependencies:
+
+```sh
+cd webapp
+npm install
+npm run build
+npx playwright install chromium
+npm run test:e2e
+```
+
+The harness starts its own localhost server on port 8765 and refuses to reuse an existing service. CI uploads the HTML report and failure traces/screenshots. This covers representative browser flows, not exhaustive cross-browser, accessibility, visual regression or live provider validation. ChatGPT assisted with the tests and CI configuration.

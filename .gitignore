@@ -9,3 +9,6 @@ __pycache__/
 *.sqlite3-*
 .env.*
 !.env.example
+
+webapp/playwright-report/
+webapp/test-results/
