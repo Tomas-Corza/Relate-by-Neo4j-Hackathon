@@ -74,7 +74,8 @@ def load_dataset(directory):
                             amount = Decimal(row[key])
                             if key in ("price", "revenue") and amount == 0:
                                 fail(table, line, f"{key} must be positive")
-                            row[key] = float(amount)
+                            # Preserve canonical integer money values; fractional cents-safe values remain floats.
+                            row[key] = int(amount) if amount == amount.to_integral_value() else float(amount)
                     if "stock" in row:
                         if not INTEGER.fullmatch(row["stock"]):
                             fail(table, line, "stock must be a nonnegative integer")
